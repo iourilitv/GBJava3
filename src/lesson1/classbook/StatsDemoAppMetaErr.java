@@ -8,6 +8,7 @@ package lesson1.classbook;
  * Наследование обобщенных классов. Ограничения при работе с обобщениями.
  * Пример использования обобщений.
  * Использование метасимвольных аргументов < ? >
+ * Как неверно
  */
 public class StatsDemoAppMetaErr {
     public static void main(String args[]) {
