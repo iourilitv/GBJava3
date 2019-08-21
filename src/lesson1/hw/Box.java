@@ -50,9 +50,9 @@ public class Box<F extends Fruit> {
         return weight;
     }
 
-    //метод сравнения коробок по весу
+    //метод сравнения коробок по весу не зависимо от типа товара
     public boolean compare(Box<F> another){
-        return true;
+        return Math.abs(this.weight - another.weight) < 0.00001;
     }
 
     //метод, который позволяет пересыпать фрукты из текущей коробки в другую

@@ -32,6 +32,11 @@ public class Store {
 
         //выводим в консоль информацию о коробках(тип товара и общий вес)
         boxesInfo(boxes);
+
+        //сравниваем коробки
+        System.out.println("Weights of the boxes equal: " + boxes.get(0).compare(boxes.get(1)));
+
+
     }
 
     //метод создания коллекции коробок. num - количество пар
