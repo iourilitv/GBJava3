@@ -15,22 +15,20 @@ public class Box<F extends Fruit> {
         this.units = new ArrayList<>(capacity);
     }
 
-    //метод загрузки в коробку
+    //метод загрузки в коробку в зависимости от типа товара
     public boolean load(F unit){
 
         //TODO временно
-        System.out.println("unit.getType():" + unit.getType() + ". box.type: " + type);
+        //System.out.println("unit.getType():" + unit.getType() + ". box.type: " + type);
 
         //если тип товара и тип коробки совпадают и коробка не пуста
         if(unit.getType().equals(type) && !isFull()){
             //добавляем товар в коллекцию
             units.add(unit);
+            this.setWeight();
             return true;
         }
         return false;
-        /*for (int i = 0; i < number; i++) {
-            units.add(unit);
-        }*/
     }
 
     //метод выгрузки из коробки
@@ -39,8 +37,16 @@ public class Box<F extends Fruit> {
     }
 
     //метод взвешивания коробки
-    public Float getWeight(){
+    public void setWeight(){
+        if (units.size() == 0){
+            weight = 0.0f;
+        } else{
+            weight = units.size() * units.get(0).getWeight();
+        }
+    }
 
+    //getter
+    public Float getWeight(){
         return weight;
     }
 
