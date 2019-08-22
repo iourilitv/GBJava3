@@ -22,5 +22,7 @@ public class Test {
         //TODO
         // Так и не нашел, как у обекта new Box<Apple>("Apple", 10)) в коллекции boxes в классе Store
         // получить тип параметра Apple? Пришлось вводить параметр type в конструкторы Box и Fruit.
+
+        //Ready.
     }
 }
