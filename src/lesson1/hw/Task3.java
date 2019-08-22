@@ -29,3 +29,35 @@ public class Task3 {
         new Store().getOperations();
     }
 }
+
+//Result.
+//Loaded container.50
+//Unloaded container.size(): 0
+//Box(0): Type of units:Apple. Box weight:10.0. Box capacity:10. Number of units:10
+//Box(1): Type of units:Orange. Box weight:15.0. Box capacity:10. Number of units:10
+//Box(2): Type of units:Apple. Box weight:10.0. Box capacity:10. Number of units:10
+//Box(3): Type of units:Orange. Box weight:15.0. Box capacity:10. Number of units:10
+//Box(4): Type of units:Apple. Box weight:5.0. Box capacity:10. Number of units:5
+//Box(5): Type of units:Orange. Box weight:7.5. Box capacity:10. Number of units:5
+//Box(6): Type of units:Apple. Box weight:0.0. Box capacity:10. Number of units:0
+//Box(7): Type of units:Orange. Box weight:0.0. Box capacity:10. Number of units:0
+//Box(8): Type of units:Apple. Box weight:0.0. Box capacity:10. Number of units:0
+//Box(9): Type of units:Orange. Box weight:0.0. Box capacity:10. Number of units:0
+//
+//***Trying to weigh the boxes
+//Weights of the boxes(0) and boxes(1) equal: false
+//Weights of the boxes(0) and boxes(2) equal: true
+//
+//***Trying to unload
+//from boxes(5)
+//Type of units:Orange. Box weight:7.5. Box capacity:10. Number of units:5
+//to boxes(6)
+//Type of units:Apple. Box weight:0.0. Box capacity:10. Number of units:0
+//The types of boxes are not matched!
+//
+//***Trying to unload
+//from boxes(0)
+//Type of units:Apple. Box weight:10.0. Box capacity:10. Number of units:10
+//to boxes(8)
+//Type of units:Apple. Box weight:0.0. Box capacity:10. Number of units:0
+//The rest in boxes(0):0
