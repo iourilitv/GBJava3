@@ -27,15 +27,26 @@ public class Store {
         unloadContainer(container);
 
         //TODO временно
-        System.out.println("Loaded container.size(): " + container.size());
+        System.out.println("Unloaded container.size(): " + container.size());
         //printArrayList(container);
 
         //выводим в консоль информацию о коробках(тип товара и общий вес)
         boxesInfo(boxes);
 
         //сравниваем коробки
-        System.out.println("Weights of the boxes equal: " + boxes.get(0).compare(boxes.get(1)));
+        int fromIndex = 0;
+        int toIndex = 1;
+        System.out.println("\n***Trying to weigh the boxes");
+        System.out.println("Weights of the boxes(" + fromIndex + ") and boxes(" + toIndex + ") equal: " +
+                boxes.get(fromIndex).compareWeight(boxes.get(toIndex)));
+        fromIndex = 0;
+        toIndex = 2;
+        System.out.println("Weights of the boxes(" + fromIndex + ") and boxes(" + toIndex + ") equal: " +
+                boxes.get(fromIndex).compareWeight(boxes.get(toIndex)));
 
+        //перекладываем товар из коробки в коробку
+        repackBoxes(5, 6);
+        repackBoxes(0, 8);
 
     }
 
@@ -60,10 +71,6 @@ public class Store {
     public void unloadContainer(List<Fruit> container){
         //пролистываем содержимое контейнера
         for (int i = 0; i < container.size(); i++) {
-
-            //TODO временно
-            //System.out.println("unit(" + i + "): " + container.get(i).getClass().getName());
-
             //пролистываем коллекцию коробок//FIXME много перебора
             for (Box box : boxes) {
                 //загружаем товар в коробку
@@ -77,10 +84,34 @@ public class Store {
         }
     }
 
+    public void repackBoxes(int fromIndex, int toIndex){
+        int rest = 0;
+
+        //TODO временно
+        System.out.println("\n***Trying to unload ");
+        System.out.println("from boxes(" + fromIndex + ")");
+        boxes.get(fromIndex).boxInfo();
+        System.out.println("to boxes(" + toIndex + ")");
+        boxes.get(toIndex).boxInfo();
+
+        if(boxes.get(fromIndex).compareType(boxes.get(toIndex))){
+            if(!boxes.get(toIndex).isFull()){
+                rest = boxes.get(fromIndex).unloadFromBoxToBox(boxes.get(toIndex));
+                System.out.println("The rest in boxes(" + fromIndex + "):" + rest);
+            } else{
+                System.out.println("The receive box is full!");
+            }
+        } else{
+            System.out.println("The types of boxes are not matched!");
+        }
+    }
+
+
     //метод выводящий в консоль список коробок с типом товара и весом коробки
     public void boxesInfo(List<Box> arrayList){
-        for (Box a: arrayList) {
-            System.out.println("Box with type of units: " + a.getType() + ". Box weight: " + a.getWeight());
+        for (int i = 0; i < arrayList.size(); i++) {
+            System.out.print("Box(" + i + "): ");
+            arrayList.get(i).boxInfo();
         }
     }
 
