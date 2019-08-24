@@ -1,12 +1,19 @@
 package lesson1.hw;
 
 public class Orange extends Fruit{
-    private String type;
+    //private String type;//TODO Update.Deleted
+
     private Float weight;
 
-    public Orange(Float weight) {
+    //TODO Update.Deleted
+    /*public Orange(Float weight) {
         super(weight);
         this.type = "Orange";
+        this.weight = super.weight;
+    }*/
+    //TODO Update.Added
+    public Orange(Float weight) {
+        super(weight, Orange.class.getSimpleName());
         this.weight = super.weight;
     }
 

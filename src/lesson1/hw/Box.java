@@ -7,7 +7,7 @@ public class Box<F extends Fruit> {
     private int capacity;//вместимость коробки
     protected Float weight;
     private String type;
-    private List<F> units;//массив элементов коробки(подтипы класса Friut)
+    private List<F> units;//массив элементов коробки(подтипы класса Fruit)
 
     public Box(String type, int capacity) {
         this.type = type;
