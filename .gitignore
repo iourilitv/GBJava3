@@ -1,6 +1,9 @@
 /.idea/
 /out/
 
+# my own files with extension
+*.storage
+
 # Compiled class file
 *.class
 
