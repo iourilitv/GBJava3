@@ -1,8 +1,8 @@
 /.idea/
 /out/
 
-# my own files with extension
-*storage
+# my own files at the following packages
+/src/com/batiaev/java2/lesson8/resources/
 
 # Compiled class file
 *.class
