@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * MyWindow
@@ -125,7 +126,7 @@ public class MyWindow extends JFrame {
                             //запоминаем собственное имя в чате
                             nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
                             //загружаем историю переписки
-                            getMessageHistory();
+                            restoreMessageHistory();
 
                             setTitle(nick + "'s client");
                             setAuthorized(true);
@@ -136,10 +137,10 @@ public class MyWindow extends JFrame {
                             if (msg.equalsIgnoreCase("end session")) break;
 
                             //TODO Adding a message storage.Deleted
-                            jta.append(msg + System.lineSeparator());//TODO Useful to use
+                            //jta.append(msg + System.lineSeparator());//TODO Useful to use
                             //TODO Adding a message storage.Added
+                            showMessage(msg);
                             saveMessageIntoStorage(msg);
-                            //gettingMessageFromStorage();
                         }
                     }
                     setAuthorized(false);
@@ -154,7 +155,7 @@ public class MyWindow extends JFrame {
 
     //TODO Adding a message storage.Added
     //Метод загрузки истории сообщений
-    private void getMessageHistory() throws FileNotFoundException {
+    private void restoreMessageHistory() throws FileNotFoundException {
         //создаем временную коллекцию
         userMessageList = new ArrayList<>(FILE_STORAGE_CAPACITY);
         //создаем путь к файлу для хранения истории собщений
@@ -193,12 +194,43 @@ public class MyWindow extends JFrame {
     }
 
     //TODO Adding a message storage.Added
+    //Метод возвращающий историю последние сообщения в чате пользователя из файла
+    private void getMessagesFromStorage() throws FileNotFoundException {
+        //TODO временно
+        //System.out.println("gettingMessagesFromStorage....");
+
+        //запускаем поток чтения из файла
+        DataInputStream readFile = new DataInputStream(new FileInputStream(userMessageStorageFile));
+        Scanner scanner = new Scanner(readFile);
+        //читаем пока не дойдем до пустой строки
+        while(scanner.hasNext()) {
+            //принимаем первую строку файла
+            String line = scanner.nextLine();
+            //очищаем от первых двух служебных символов
+            line = line.substring(2);// лишнее - , line.length() - 1
+
+            //TODO временно
+            //System.out.println("scanner.nextLine(): " + line);
+
+            //добавляем в коллекцию строки из файла
+            userMessageList.add(line);
+            //выводим строку пользователю
+            showMessage(line);
+        }
+
+        //TODO временно
+        //System.out.println("***AFTER READING. printArrayList***");
+        //printArrayList(userMessageList);
+
+    }
+
+    //TODO Adding a message storage.Added
     //Метод сохранения последних n сообщений в чате пользователя в файл
     void saveMessageIntoStorage(String msg) throws FileNotFoundException {
 
         //TODO временно
-        System.out.println("***printArrayList***");
-        System.out.println("new msg: " + msg + ". list.size(): " + userMessageList.size());
+        //System.out.println("***BEFORE SAVING. printArrayList***");
+        //System.out.println("new msg: " + msg + ". list.size(): " + userMessageList.size());
 
         //если в коллекции все ячейки заполнены, то
         if(userMessageList.size() == FILE_STORAGE_CAPACITY){
@@ -209,7 +241,8 @@ public class MyWindow extends JFrame {
         userMessageList.add(msg);
 
         //TODO временно
-        printArrayList(userMessageList);
+        //System.out.println("***AFTER SAVING. printArrayList***");
+        //printArrayList(userMessageList);
 
         //***перезаписываем коллекцией файл***
         DataOutputStream writeMsg = new DataOutputStream(new FileOutputStream(userMessageStorageFile));
@@ -220,18 +253,6 @@ public class MyWindow extends JFrame {
                 e.printStackTrace();
             }
         }
-    }
-
-    //TODO Adding a message storage.Added
-    //Метод возвращающий последние 100 сообщений в чате пользователя из файла
-    private void getMessagesFromStorage(){
-        //TODO временно
-        System.out.println("gettingMessagesFromStorage....");
-
-        //разделяем строку на
-        //String[] temp = msg.split(System.lineSeparator());
-        //list.addAll(Arrays.asList(temp));
-
     }
 
     private void sendMsgFromUI() {//TODO Useful to use
@@ -259,6 +280,12 @@ public class MyWindow extends JFrame {
 
     private boolean isAuthorized() {
         return authorized;
+    }
+
+    //TODO Adding a message storage.Added
+    //выводим строку пользователю
+    private void showMessage(String string){
+        jta.append(string + System.lineSeparator());
     }
 
     //TODO временно
