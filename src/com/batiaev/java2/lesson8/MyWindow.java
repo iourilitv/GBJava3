@@ -161,17 +161,13 @@ public class MyWindow extends JFrame {
         userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_message.storage");
         userMessageStorageFile = new File(userMessageStorageFileName);
 
-        //TODO временно
-        //System.out.println("userMessageStorageFileName: " + userMessageStorageFileName);
-        //System.out.println("userMessageStorageFile.getName(): " + userMessageStorageFile.getName());
-
         //если файл уже создан
         if(isCreatedUserMessageStorageFile()){
             //читаем его в коллекцию
             getMessagesFromStorage();
+        } else {
+            System.out.println("The file to save a history of messages does not exist!");
         }
-
-        printArrayList(userMessageList);
     }
 
     //TODO Adding a message storage.Added
@@ -183,25 +179,22 @@ public class MyWindow extends JFrame {
             //если файл еще не создан
             try {
                 userMessageStorageFile.createNewFile();
+                System.out.println("The file to save a history of messages has been created!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("userMessageStorageFile.exists(): " + userMessageStorageFile.exists());
-        return true;
+        //проверяем еще раз существует ли файл
+        if(userMessageStorageFile.exists()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //TODO Adding a message storage.Added
     //Метод сохранения последних n сообщений в чате пользователя в файл
-    void saveMessageIntoStorage(String msg){
-        //создаем временную коллекцию
-        //List<String> list = new ArrayList<>(FILE_STORAGE_CAPACITY);
-        /*//если список пустой
-        if(list.isEmpty()) {
-            //записываем строку в первую пустую ячейку и выходим из метода
-            list.add(msg);
-            return;
-        }*/
+    void saveMessageIntoStorage(String msg) throws FileNotFoundException {
 
         //TODO временно
         System.out.println("***printArrayList***");
@@ -219,8 +212,14 @@ public class MyWindow extends JFrame {
         printArrayList(userMessageList);
 
         //***перезаписываем коллекцией файл***
-
-
+        DataOutputStream writeMsg = new DataOutputStream(new FileOutputStream(userMessageStorageFile));
+        for (String a: userMessageList) {
+            try {
+                writeMsg.writeUTF(a + System.lineSeparator());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //TODO Adding a message storage.Added
