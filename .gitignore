@@ -1,8 +1,12 @@
 /.idea/
 /out/
+/src/com/batiaev/java2/lesson8/resources/
 
 # my own files at the following packages
 /src/com.batiaev.java2.lesson8/resources/
+
+# txt files
+*.txt
 
 # Compiled class file
 *.class
