@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * MyWindow
@@ -20,8 +20,14 @@ public class MyWindow extends JFrame {
     private final String SERVER_ADDR = "localhost";
     private final int SERVER_PORT = 8189;
 
-    private JTextField login = new JTextField("Login");
-    private JPasswordField password = new JPasswordField("Password");
+    //TODO Adding a message storage.Added
+    private static final int FILE_STORAGE_CAPACITY = 5;//емкость хранилища сообщений из чата пользователя
+    private String userMessageStorageFileName = "src/com/batiaev/java2/lesson8/resources/";//"D:\\GeekBrains\\20190819_GB-Java Core. Профессиональный уровень\\GBJava3\\src\\com\\batiaev\\java2\\lesson8";//"../com/batiaev/java2/lesson8/resources/";
+    private File userMessageStorageFile;
+    List<String> userMessageList;//временная коллекция для хранения истории сообщений пользователя
+
+    private JTextField login = new JTextField("0");//TODO Временно удалил "Login"
+    private JPasswordField password = new JPasswordField("0");//TODO Временно удалил "Password"
     private JButton authBtn = new JButton("Auth");
     private JTextField jtf;
     private JTextArea jta;
@@ -30,6 +36,9 @@ public class MyWindow extends JFrame {
     private DataInputStream in;
     private DataOutputStream out;
     private boolean authorized = false;
+
+    //TODO Adding a message storage.Added
+    private String nick = null;
 
     public static void main(String[] args) {
         new MyWindow().setVisible(true);
@@ -91,7 +100,7 @@ public class MyWindow extends JFrame {
 
     private void connect(String login, String password) {
 
-        if (login.trim().isEmpty() || password.trim().isEmpty()) {
+        if (login.trim().isEmpty() || password.trim().isEmpty()) {//TODO Useful to use
             System.out.println("login or password is empty!");
             return;
         }
@@ -106,10 +115,18 @@ public class MyWindow extends JFrame {
             new Thread(() -> {
                 try {
                     while (sock.isConnected() && !sock.isClosed()) {
-                        Thread.sleep(100);
+                        Thread.sleep(100);//TODO Useful to use
                         String msg = in.readUTF();
-                        if (msg.startsWith(Command.AUTHOK_COMMAND.getText())) {
-                            String nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
+                        if (msg.startsWith(Command.AUTHOK_COMMAND.getText())) {//TODO Useful to use
+
+                            //TODO Adding a message storage.Deleted
+                            //String nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
+                            //TODO Adding a message storage.Added
+                            //запоминаем собственное имя в чате
+                            nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
+                            //загружаем историю переписки
+                            getMessageHistory();
+
                             setTitle(nick + "'s client");
                             setAuthorized(true);
                         } else if (msg.startsWith(Command.DISCONNECTED.getText())) {
@@ -117,7 +134,12 @@ public class MyWindow extends JFrame {
                             setAuthorized(false);
                         } else if (isAuthorized()) {
                             if (msg.equalsIgnoreCase("end session")) break;
-                            jta.append(msg + System.lineSeparator());
+
+                            //TODO Adding a message storage.Deleted
+                            jta.append(msg + System.lineSeparator());//TODO Useful to use
+                            //TODO Adding a message storage.Added
+                            saveMessageIntoStorage(msg);
+                            //gettingMessageFromStorage();
                         }
                     }
                     setAuthorized(false);
@@ -130,7 +152,90 @@ public class MyWindow extends JFrame {
         }
     }
 
-    private void sendMsgFromUI() {
+    //TODO Adding a message storage.Added
+    //Метод загрузки истории сообщений
+    private void getMessageHistory() throws FileNotFoundException {
+        //создаем временную коллекцию
+        userMessageList = new ArrayList<>(FILE_STORAGE_CAPACITY);
+        //создаем путь к файлу для хранения истории собщений
+        userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_message.storage");
+        userMessageStorageFile = new File(userMessageStorageFileName);
+
+        //TODO временно
+        //System.out.println("userMessageStorageFileName: " + userMessageStorageFileName);
+        //System.out.println("userMessageStorageFile.getName(): " + userMessageStorageFile.getName());
+
+        //если файл уже создан
+        if(isCreatedUserMessageStorageFile()){
+            //читаем его в коллекцию
+            getMessagesFromStorage();
+        }
+
+        printArrayList(userMessageList);
+    }
+
+    //TODO Adding a message storage.Added
+    //Метод создающий файл для храния сообщений в чате пользователя
+    //создает новый файл, если его еще нет
+    private boolean isCreatedUserMessageStorageFile() throws FileNotFoundException {
+        //проверяем есть ли файл
+        if(!userMessageStorageFile.exists()){
+            //если файл еще не создан
+            try {
+                userMessageStorageFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("userMessageStorageFile.exists(): " + userMessageStorageFile.exists());
+        return true;
+    }
+
+    //TODO Adding a message storage.Added
+    //Метод сохранения последних n сообщений в чате пользователя в файл
+    void saveMessageIntoStorage(String msg){
+        //создаем временную коллекцию
+        //List<String> list = new ArrayList<>(FILE_STORAGE_CAPACITY);
+        /*//если список пустой
+        if(list.isEmpty()) {
+            //записываем строку в первую пустую ячейку и выходим из метода
+            list.add(msg);
+            return;
+        }*/
+
+        //TODO временно
+        System.out.println("***printArrayList***");
+        System.out.println("new msg: " + msg + ". list.size(): " + userMessageList.size());
+
+        //если в коллекции все ячейки заполнены, то
+        if(userMessageList.size() == FILE_STORAGE_CAPACITY){
+            // удаляем первую(елементы сдвинутся в начало)
+            userMessageList.remove(0);
+        }
+        //записываем строку в пустую ячейку(последнюю)
+        userMessageList.add(msg);
+
+        //TODO временно
+        printArrayList(userMessageList);
+
+        //***перезаписываем коллекцией файл***
+
+
+    }
+
+    //TODO Adding a message storage.Added
+    //Метод возвращающий последние 100 сообщений в чате пользователя из файла
+    private void getMessagesFromStorage(){
+        //TODO временно
+        System.out.println("gettingMessagesFromStorage....");
+
+        //разделяем строку на
+        //String[] temp = msg.split(System.lineSeparator());
+        //list.addAll(Arrays.asList(temp));
+
+    }
+
+    private void sendMsgFromUI() {//TODO Useful to use
         String msg = jtf.getText();
         sendMsg(msg);
         jtf.setText("");
@@ -156,4 +261,13 @@ public class MyWindow extends JFrame {
     private boolean isAuthorized() {
         return authorized;
     }
+
+    //TODO временно
+    public void printArrayList(List<String> arrayList){
+        System.out.println("arrayList.size(): " + arrayList.size());
+        for (Object a: arrayList) {
+            System.out.println("element: " + a);
+        }
+    }
+
 }

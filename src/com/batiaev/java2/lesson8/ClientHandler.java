@@ -95,13 +95,13 @@ public class ClientHandler extends Thread implements Closeable {
 
     private void sendChatMessage(String msg) {
         // /clients nick1     nick2   nick3 -m hello nick1
-        String[] data = msg.substring(Command.CHAT_MESSAGE.getText().length() + 1).split(" -m ");
+        String[] data = msg.substring(Command.CHAT_MESSAGE.getText().length() + 1).split(" -m ");//TODO Useful to use
         if (data.length == 2) {
             String message = data[1];
             String[] nicknames = data[0].split(" ");
             List<String> validUsers = new ArrayList<>();
             for (String nickname : nicknames) {
-                if (!nickname.trim().isEmpty()) {
+                if (!nickname.trim().isEmpty()) {//TODO Useful to use
                     if (isUserExist(nickname)) {
                         validUsers.add(nickname);
                     } else {
