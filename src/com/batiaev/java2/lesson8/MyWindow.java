@@ -22,7 +22,7 @@ public class MyWindow extends JFrame {
     private final int SERVER_PORT = 8189;
 
     //TODO Adding a message storage.Added
-    private static final int FILE_STORAGE_CAPACITY = 5;//емкость хранилища сообщений из чата пользователя
+    private static final int FILE_STORAGE_CAPACITY = 100;//емкость хранилища сообщений из чата пользователя
     private String userMessageStorageFileName = "src/com/batiaev/java2/lesson8/resources/";//"D:\\GeekBrains\\20190819_GB-Java Core. Профессиональный уровень\\GBJava3\\src\\com\\batiaev\\java2\\lesson8";//"../com/batiaev/java2/lesson8/resources/";
     private File userMessageStorageFile;
     List<String> userMessageList;//временная коллекция для хранения истории сообщений пользователя
@@ -172,8 +172,8 @@ public class MyWindow extends JFrame {
     }
 
     //TODO Adding a message storage.Added
-    //Метод создающий файл для храния сообщений в чате пользователя
-    //создает новый файл, если его еще нет
+    //Метод проверяющий есть ли файл для хранения сообщений в чате пользователя
+    //и создает новый файл, если его еще нет
     private boolean isCreatedUserMessageStorageFile() throws FileNotFoundException {
         //проверяем есть ли файл
         if(!userMessageStorageFile.exists()){
@@ -196,9 +196,6 @@ public class MyWindow extends JFrame {
     //TODO Adding a message storage.Added
     //Метод возвращающий историю последние сообщения в чате пользователя из файла
     private void getMessagesFromStorage() throws FileNotFoundException {
-        //TODO временно
-        //System.out.println("gettingMessagesFromStorage....");
-
         //запускаем поток чтения из файла
         DataInputStream readFile = new DataInputStream(new FileInputStream(userMessageStorageFile));
         Scanner scanner = new Scanner(readFile);
@@ -206,12 +203,8 @@ public class MyWindow extends JFrame {
         while(scanner.hasNext()) {
             //принимаем первую строку файла
             String line = scanner.nextLine();
-            //очищаем от первых двух служебных символов
-            line = line.substring(2);// лишнее - , line.length() - 1
-
-            //TODO временно
-            //System.out.println("scanner.nextLine(): " + line);
-
+            //очищаем от первых двух служебных символов в каждой строке файла
+            line = line.substring(2);
             //добавляем в коллекцию строки из файла
             userMessageList.add(line);
             //выводим строку пользователю
@@ -227,11 +220,6 @@ public class MyWindow extends JFrame {
     //TODO Adding a message storage.Added
     //Метод сохранения последних n сообщений в чате пользователя в файл
     void saveMessageIntoStorage(String msg) throws FileNotFoundException {
-
-        //TODO временно
-        //System.out.println("***BEFORE SAVING. printArrayList***");
-        //System.out.println("new msg: " + msg + ". list.size(): " + userMessageList.size());
-
         //если в коллекции все ячейки заполнены, то
         if(userMessageList.size() == FILE_STORAGE_CAPACITY){
             // удаляем первую(елементы сдвинутся в начало)
@@ -239,11 +227,6 @@ public class MyWindow extends JFrame {
         }
         //записываем строку в пустую ячейку(последнюю)
         userMessageList.add(msg);
-
-        //TODO временно
-        //System.out.println("***AFTER SAVING. printArrayList***");
-        //printArrayList(userMessageList);
-
         //***перезаписываем коллекцией файл***
         DataOutputStream writeMsg = new DataOutputStream(new FileOutputStream(userMessageStorageFile));
         for (String a: userMessageList) {
