@@ -159,7 +159,7 @@ public class MyWindow extends JFrame {
         //создаем временную коллекцию
         userMessageList = new ArrayList<>(FILE_STORAGE_CAPACITY);
         //создаем путь к файлу для хранения истории собщений
-        userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_message.storage");
+        userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_messageStorage.txt");
         userMessageStorageFile = new File(userMessageStorageFileName);
 
         //если файл уже создан
