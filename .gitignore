@@ -2,7 +2,7 @@
 /out/
 
 # my own files with extension
-*.storage
+*storage
 
 # Compiled class file
 *.class
