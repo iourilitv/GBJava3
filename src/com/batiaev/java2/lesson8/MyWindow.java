@@ -15,6 +15,10 @@ import java.util.Scanner;
  * Net Chat App of Java2
  * @author Anton Batiaev
  * @since 06/11/17
+ * Update.
+ * @author Yuriy Litvinenko
+ * @since 29.08.2019
+ * Added a message storage and restoring message history feature.
  */
 public class MyWindow extends JFrame {
 

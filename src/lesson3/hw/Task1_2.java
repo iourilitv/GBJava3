@@ -15,6 +15,7 @@ import java.util.Scanner;
  * Done 1. Добавить в сетевой чат запись локальной истории в текстовый файл на клиенте.
  * Done 2. После загрузки клиента показывать ему последние 100 строк чата.
  * Реализовано в пакете com.batiaev.java2.lesson8/MyWindow. Копия кода - ниже
+ * Ready
  */
 public class Task1_2 {
     private JTextArea jta;
