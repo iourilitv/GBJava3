@@ -155,7 +155,7 @@ public class MyWindow extends JFrame {
 
     //TODO Adding a message storage.Added
     //Метод загрузки истории сообщений
-    private void restoreMessageHistory() throws FileNotFoundException {
+    private void restoreMessageHistory() {
         //создаем временную коллекцию
         userMessageList = new ArrayList<>(FILE_STORAGE_CAPACITY);
         //создаем путь к файлу для хранения истории собщений
@@ -174,7 +174,7 @@ public class MyWindow extends JFrame {
     //TODO Adding a message storage.Added
     //Метод проверяющий есть ли файл для хранения сообщений в чате пользователя
     //и создает новый файл, если его еще нет
-    private boolean isCreatedUserMessageStorageFile() throws FileNotFoundException {
+    private boolean isCreatedUserMessageStorageFile() {
         //проверяем есть ли файл
         if(!userMessageStorageFile.exists()){
             //если файл еще не создан
@@ -195,31 +195,34 @@ public class MyWindow extends JFrame {
 
     //TODO Adding a message storage.Added
     //Метод возвращающий историю последние сообщения в чате пользователя из файла
-    private void getMessagesFromStorage() throws FileNotFoundException {
-        //запускаем поток чтения из файла
-        DataInputStream readFile = new DataInputStream(new FileInputStream(userMessageStorageFile));
-        Scanner scanner = new Scanner(readFile);
-        //читаем пока не дойдем до пустой строки
-        while(scanner.hasNext()) {
-            //принимаем первую строку файла
-            String line = scanner.nextLine();
-            //очищаем от первых двух служебных символов в каждой строке файла
-            line = line.substring(2);
-            //добавляем в коллекцию строки из файла
-            userMessageList.add(line);
-            //выводим строку пользователю
-            showMessage(line);
+    private void getMessagesFromStorage() {
+        Scanner scanner = null;
+        //запускаем поток чтения из файла в конструкции try-с-ресурсом, чтобы он закрылся автоматически по окончании
+        try(DataInputStream readFile = new DataInputStream(new FileInputStream(userMessageStorageFile))){
+            scanner = new Scanner(readFile);
+            //читаем пока не дойдем до пустой строки
+            while(scanner.hasNext()) {
+                //принимаем первую строку файла
+                String line = scanner.nextLine();
+                //очищаем от первых двух служебных символов в каждой строке файла
+                line = line.substring(2);
+                //добавляем в коллекцию строки из файла
+                userMessageList.add(line);
+                //выводим строку пользователю
+                showMessage(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        //TODO временно
-        //System.out.println("***AFTER READING. printArrayList***");
-        //printArrayList(userMessageList);
-
+        //закрываем сканер
+        scanner.close();
     }
 
     //TODO Adding a message storage.Added
     //Метод сохранения последних n сообщений в чате пользователя в файл
-    void saveMessageIntoStorage(String msg) throws FileNotFoundException {
+    void saveMessageIntoStorage(String msg) {
         //если в коллекции все ячейки заполнены, то
         if(userMessageList.size() == FILE_STORAGE_CAPACITY){
             // удаляем первую(елементы сдвинутся в начало)
@@ -228,13 +231,13 @@ public class MyWindow extends JFrame {
         //записываем строку в пустую ячейку(последнюю)
         userMessageList.add(msg);
         //***перезаписываем коллекцией файл***
-        DataOutputStream writeMsg = new DataOutputStream(new FileOutputStream(userMessageStorageFile));
-        for (String a: userMessageList) {
-            try {
+        try(DataOutputStream writeMsg = new DataOutputStream(new FileOutputStream(userMessageStorageFile));) {
+            for (String a: userMessageList) {
+                //запускаем поток перезаписи файла в конструкции try-с-ресурсом, чтобы он закрылся автоматически по окончании
                 writeMsg.writeUTF(a + System.lineSeparator());
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
