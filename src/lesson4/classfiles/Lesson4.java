@@ -6,7 +6,8 @@ import java.util.concurrent.Future;
 
 /**
  * GBJava3
- * Java Core. Professional level. 19.08.2019 Webinar. Teacher: Anton Batiaev *
+ * Java Core. Professional level. 19.08.2019 Webinar. Teacher: Anton Batiaev
+ * Урок 4. Многопоточность. Часть I
  * @author anton
  * @since 29/08/19
  */
