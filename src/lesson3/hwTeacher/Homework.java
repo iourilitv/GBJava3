@@ -8,9 +8,10 @@ import java.util.Scanner;
 
 public class Homework {
     //private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Homework.class);//TODO not imported class Log
-    private static File file = new File("src/main/resources/task3.txt");
+    private static File file = new File("src/lesson3/hwTeacher/resources/task3.txt");
 
     public static void main(String[] args) {
+        //создаем случайно заполненные файлы
         createFiles();
 //        task1();
 //        task2();
@@ -28,13 +29,14 @@ public class Homework {
         }
     }
 
+
     private static void task2() {
-        try (FileInputStream in1 = new FileInputStream("src/main/resources/task2_in1.txt");
-             FileInputStream in2 = new FileInputStream("src/main/resources/task2_in2.txt");
-             FileInputStream in3 = new FileInputStream("src/main/resources/task2_in3.txt");
-             FileInputStream in4 = new FileInputStream("src/main/resources/task2_in4.txt");
-             FileInputStream in5 = new FileInputStream("src/main/resources/task2_in5.txt");
-             FileOutputStream all = new FileOutputStream("src/main/resources/task2_all.txt")) {
+        try (FileInputStream in1 = new FileInputStream("src/lesson3/hwTeacher/resources/task2_in1.txt");
+             FileInputStream in2 = new FileInputStream("src/lesson3/hwTeacher/resources/task2_in2.txt");
+             FileInputStream in3 = new FileInputStream("src/lesson3/hwTeacher/resources/task2_in3.txt");
+             FileInputStream in4 = new FileInputStream("src/lesson3/hwTeacher/resources/task2_in4.txt");
+             FileInputStream in5 = new FileInputStream("src/lesson3/hwTeacher/resources/task2_in5.txt");
+             FileOutputStream all = new FileOutputStream("src/lesson3/hwTeacher/resources/task2_all.txt")) {
 
             Enumeration<InputStream> e = Collections.enumeration(
                     Arrays.asList(in1, in2, in3, in4, in5));
@@ -86,20 +88,21 @@ public class Homework {
         }
     }
 
-
+    //метод создает случайно заполненные файлы
     private static void createFiles() {
-        try (FileWriter outTask1 = new FileWriter("src/main/resources/task1.txt");
-             FileWriter outTask2_1 = new FileWriter("src/main/resources/task2_in1.txt");
-             FileWriter outTask2_2 = new FileWriter("src/main/resources/task2_in2.txt");
-             FileWriter outTask2_3 = new FileWriter("src/main/resources/task2_in3.txt");
-             FileWriter outTask2_4 = new FileWriter("src/main/resources/task2_in4.txt");
-             FileWriter outTask2_5 = new FileWriter("src/main/resources/task2_in5.txt")) {
-            //
+        //запускаем потоки записи
+        try (FileWriter outTask1 = new FileWriter("src/lesson3/hwTeacher/resources/task1.txt");
+             FileWriter outTask2_1 = new FileWriter("src/lesson3/hwTeacher/resources/task2_in1.txt");
+             FileWriter outTask2_2 = new FileWriter("src/lesson3/hwTeacher/resources/task2_in2.txt");
+             FileWriter outTask2_3 = new FileWriter("src/lesson3/hwTeacher/resources/task2_in3.txt");
+             FileWriter outTask2_4 = new FileWriter("src/lesson3/hwTeacher/resources/task2_in4.txt");
+             FileWriter outTask2_5 = new FileWriter("src/lesson3/hwTeacher/resources/task2_in5.txt")) {
+            //записываем значение переменной char символ со значением i в файл
             for (int i = 0; i < 50; i++) {
-                outTask1.write(i);
-                outTask1.flush();
+                outTask1.write(i);//!write() принимает char!
+                outTask1.flush();//принудительно "сливаем", возможно нет autoflush в методе write.
             }
-            //
+            //записываем значение переменной i в файлы
             for (int i = 0; i < 100; i++) {
                 outTask2_1.write(i);
                 outTask2_1.flush();
@@ -115,17 +118,21 @@ public class Homework {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        // создаем файл из страниц, заполненных буквами английского алфавита
         try (BufferedWriter in = new BufferedWriter(new FileWriter(file))) {
             char c = 'a';
+            //формируем структуру из 7000 страниц (//TODO 7_000 - что за синтаксис?)
             for (int j = 0; j < 7_000; j++) {
+                //заполняем каждую страницу размером 1800 символов(одинаковые символы на всей странице)
                 for (int i = 0; i < 1800; i++) {
+                    //записываем символ, начиная с англ. a
                     in.write(c);
                 }
                 in.flush();
+                //если достигли конца англ.алфавита, присваиваем значение a - начинаем с начала
                 if (c == 'z') {
                     c = 'a';
-                } else c++;
+                } else c++;//инкремент меняет значение на следующий по очереди элемент в алфавите (a на b, ..)
             }
         } catch (IOException e) {
             e.printStackTrace();
