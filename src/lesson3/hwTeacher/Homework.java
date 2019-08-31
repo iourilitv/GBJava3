@@ -31,8 +31,8 @@ public class Homework {
         //createFiles();
 
         //task1();
-        //task2();//FIXME записывает данные только из одного файла или перезаписывает одинаковые данные
-        task3();
+        task2();//FIXME записывает данные только из одного файла или перезаписывает одинаковые данные.Done
+        //task3();
     }
 
     private static void task1() {
@@ -63,9 +63,16 @@ public class Homework {
             SequenceInputStream seq = new SequenceInputStream(e);
 
             int c;
-            int available = seq.available();
+
+            //FIXME записывает данные только из одного файла или перезаписывает одинаковые данные.Deleted
+            /*int available = seq.available();
             while (seq.available() > 0) {
                 c = seq.read();
+                all.write(c);
+            }*/
+            //FIXME записывает данные только из одного файла или перезаписывает одинаковые данные.Added
+            while ((c = seq.read()) != -1) {//> 0 - does not work!
+                System.out.println(c);
                 all.write(c);
             }
             seq.close();
@@ -112,10 +119,10 @@ public class Homework {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
     //Result. infinity continuous circle if use while (available > 0)
     //available:
     //100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100...
+}*/
 
     private static void task3() {
         System.out.println("Введите номер страницы, чтобы узнать содержимое. Или /exit для выхода.");
