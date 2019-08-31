@@ -1,4 +1,6 @@
-package com.batiaev.java2.lesson8;
+package com.batiaev.java2.lesson8.server;
+
+import com.batiaev.java2.lesson8.Command;
 
 import java.io.Closeable;
 import java.io.DataInputStream;

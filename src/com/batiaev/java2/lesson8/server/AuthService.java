@@ -1,4 +1,4 @@
-package com.batiaev.java2.lesson8;
+package com.batiaev.java2.lesson8.server;
 
 /**
  * AuthService

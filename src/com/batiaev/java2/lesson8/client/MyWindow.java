@@ -1,4 +1,6 @@
-package com.batiaev.java2.lesson8;
+package com.batiaev.java2.lesson8.client;
+
+import com.batiaev.java2.lesson8.Command;
 
 import javax.swing.*;
 import java.awt.*;
