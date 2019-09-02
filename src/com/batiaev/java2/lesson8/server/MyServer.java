@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * MyServer
@@ -18,8 +20,15 @@ import java.util.List;
  */
 public class MyServer {
     private static final long MAX_DELAY_TIME = 120;
+
+    //TODO use ExecutorService.Added
+    private static final int THREADS_PULL_SIZE = 3;
+
     private final List<ClientHandler> clients = Collections.synchronizedList(new ArrayList<>());
     private AuthService authService;
+
+    //TODO use ExecutorService.Added
+    private ExecutorService executorService = Executors.newFixedThreadPool(THREADS_PULL_SIZE);;
 
     public static void main(String[] args) {
         new MyServer(new BaseAuthService());
@@ -27,18 +36,42 @@ public class MyServer {
 
     private MyServer(AuthService authService) {
         this.authService = authService;
-
         Socket s = null;
         ServerSocket server = null;
         try {
             server = new ServerSocket(8189);
             System.out.println("Server created. Waiting for client...");
-            startKiller();
+
+            //TODO временно.Hided
+            //бесконечный цикл опроса клиентов и удаление, тех кто молчит долго
+            //startKiller();//TODO Useful!
+
+            //TODO use ExecutorService.Added
+            //бесконечный цикл опроса подключеных клиентов для предоставления свободного потока из пула
+            rollCallClientsHandlers();
+
             while (true) {
                 s = server.accept();
                 ClientHandler client = new ClientHandler(this, s);
-                client.start();
+
+                //TODO use ExecutorService.Deleted
+                //client.start();
+
                 clients.add(client);
+
+                //TODO use ExecutorService.Added
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        client.setBusy(true);
+                        //запускаем поток авторизации
+                        client.runAuth();
+                        //запускаем поток чтения
+                        client.runRead();
+                        //освобождаем ClientHandler
+                        client.setBusy(false);
+                    }
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,12 +80,64 @@ public class MyServer {
                 if (server != null) server.close();
                 System.out.println("Server closed");
                 if (s != null) s.close();
+
+                //TODO use ExecutorService.Added
+                if (!executorService.isShutdown()) executorService.shutdown();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    //TODO use ExecutorService.Added
+    //метод опроса подключеных клиентов для предоставления свободного потока из пула
+    private void rollCallClientsHandlers() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Iterator<ClientHandler> i = clients.iterator();
+                    while (i.hasNext()) {
+                        ClientHandler client = i.next();
+
+                        //TODO временно
+                        //System.out.println("1.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName() + " isActive(): " + client.isActive());
+
+                        if (client.isActive() && !client.getBusy()) {
+
+                            //TODO временно
+                            Thread.sleep(1000);
+                            //System.out.println("2.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
+
+                            //предоставляем ClientHandler поток из пула и запускаем его задачу
+                            executorService.execute(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    //TODO временно
+                                    System.out.println("3.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
+                                    client.setBusy(true);
+                                    //запускаем поток чтения буфера клиента
+                                    client.runRead();
+                                    //освобождаем ClientHandler
+                                    client.setBusy(false);
+                                }
+                            });
+                        } else {
+                            //TODO временно
+                            //System.out.println("9.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
+
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    //TODO Useful!
+    //метод контроля подключеного клиента и закрытия клиента, если превышено время ожидания
     private void startKiller() {
         new Thread(() -> {
             while (true) {
@@ -63,6 +148,10 @@ public class MyServer {
                     Iterator<ClientHandler> i = clients.iterator();
                     while (i.hasNext()) {
                         ClientHandler client = i.next();
+
+                        //TODO временно
+                        System.out.println("startKiller.client.nick: " + client.getHandlerName());
+
                         if (!client.isActive()
                                 && Duration.between(client.getConnectTime(), now).getSeconds() > MAX_DELAY_TIME) {
                             System.out.println("close unauthorized user");

@@ -29,6 +29,9 @@ public class MyWindow extends JFrame {
     private File userMessageStorageFile;
     List<String> userMessageList;//временная коллекция для хранения истории сообщений пользователя
 
+    //TODO use ExecutorService.Added
+    List<String> buffer = new ArrayList<>();//Буфер для приема сообщений пока не разрешил сервер
+
     private JTextField login = new JTextField("0");//TODO Временно удалил "Login"
     private JPasswordField password = new JPasswordField("0");//TODO Временно удалил "Password"
     private JButton authBtn = new JButton("Auth");
@@ -79,7 +82,12 @@ public class MyWindow extends JFrame {
             public void windowClosing(WindowEvent event) {
                 super.windowClosing(event);
                 try {
-                    out.writeUTF("end");
+
+                    //TODO Not corrected Client closing.Deleted.ERROR java.io.EOFException
+                    //out.writeUTF("end");
+                    //TODO Not corrected Client closing.Added.ERROR java.io.EOFException
+                    out.writeUTF(Command.END_CONNECTION_CALL.getText());
+
                     out.close();
                     in.close();
                     sock.close();
@@ -112,7 +120,7 @@ public class MyWindow extends JFrame {
             sock = new Socket(SERVER_ADDR, SERVER_PORT);
             in = new DataInputStream(sock.getInputStream());
             out = new DataOutputStream(sock.getOutputStream());
-            out.writeUTF("/auth " + login + " " + password);
+            out.writeUTF(Command.AUTH_COMMAND.getText() + " " + login + " " + password);
             out.flush();
 
             new Thread(() -> {
@@ -120,29 +128,47 @@ public class MyWindow extends JFrame {
                     while (sock.isConnected() && !sock.isClosed()) {
                         Thread.sleep(100);//TODO Useful to use
                         String msg = in.readUTF();
-                        if (msg.startsWith(Command.AUTHOK_COMMAND.getText())) {//TODO Useful to use
 
-                            //TODO Adding a message storage.Deleted
-                            //String nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
-                            //TODO Adding a message storage.Added
-                            //запоминаем собственное имя в чате
-                            nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
-                            //загружаем историю переписки
-                            restoreMessageHistory();
+                        //TODO "/"optimizing.Added
+                        //разделяем сообщения на служебные и пользователей
+                        if (msg.startsWith("/")) {
 
-                            setTitle(nick + "'s client");
-                            setAuthorized(true);
-                        } else if (msg.startsWith(Command.DISCONNECTED.getText())) {
-                            jta.append("Connection closed..=(");
-                            setAuthorized(false);
-                        } else if (isAuthorized()) {
-                            if (msg.equalsIgnoreCase("end session")) break;
+                            if (msg.startsWith(Command.AUTHOK_COMMAND.getText())) {//TODO Useful to use
 
-                            //TODO Adding a message storage.Deleted
-                            //jta.append(msg + System.lineSeparator());//TODO Useful to use
-                            //TODO Adding a message storage.Added
+                                //TODO Adding a message storage.Deleted
+                                //String nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
+                                //TODO Adding a message storage.Added
+                                //запоминаем собственное имя в чате
+                                nick = msg.substring(Command.AUTHOK_COMMAND.getText().length() + 1);
+                                //загружаем историю переписки
+                                restoreMessageHistory();
+
+                                setTitle(nick + "'s client");
+                                setAuthorized(true);
+                            } else if (msg.startsWith(Command.DISCONNECTED.getText())) {
+                                jta.append("Connection closed..=(");
+                                setAuthorized(false);
+                            } else if (isAuthorized()) {
+                                //if (msg.equalsIgnoreCase("end session")) break;//TODO Почему без /. Найти источник
+
+                                //TODO use ExecutorService.Added
+                                //если пришел запрос от своего ClientHandler
+                                if (msg.startsWith(Command.READ_BUFFER_CALL.getText())) {
+                                    //отправляем сообщения из буфера
+                                    sendBuffer();
+                                }
+
+                                //TODO "/"optimizing.Deleted
+                                /*showMessage(msg);
+                                saveMessageIntoStorage(msg);*/
+
+                            }
+                        } else {
+
+                            //TODO "/"optimizing .Added
                             showMessage(msg);
                             saveMessageIntoStorage(msg);
+
                         }
                     }
                     setAuthorized(false);
@@ -243,13 +269,47 @@ public class MyWindow extends JFrame {
         }
     }
 
-    private void sendMsgFromUI() {//TODO Useful to use
+    //TODO use ExecutorService.Added
+    //Метод отправки сообщений UI из буфера в ClientHandler
+    private void sendBuffer() {
+        //если буфер не пустой
+        if (!buffer.isEmpty()) {
+            //пробегаемся по всем элементам буфера и отправляем их по очереди
+            for (String msg : buffer) {
+                sendMsg(msg);
+            }
+            //очищаем буфер
+            buffer.clear();
+        }
+        //отправляем сообщение об окончании буфера
+        sendMsg(Command.READ_BUFFER_END.getText());
+    }
+
+    //TODO use ExecutorService.Deleted
+    /*private void sendMsgFromUI() {
         String msg = jtf.getText();
         sendMsg(msg);
         jtf.setText("");
         jtf.grabFocus();
+    }*/
+    //TODO use ExecutorService.Added
+    private void sendMsgFromUI() {//TODO Useful to use
+        //принимаем сообщение из текстового поля UI
+        String msg = jtf.getText();
+        //и сохранияем его во временную коллекцию
+        buffer.add(msg);
+
+        //TODO временно
+        System.out.println("sendMsgFromUI.buffer: ");
+        printArrayList(buffer);
+
+        //очищаем текстовое поле
+        jtf.setText("");
+        //и устанавливаем курсор на текстовое поле
+        jtf.grabFocus();
     }
 
+    //отправка сообщения своему ClientHandler
     private void sendMsg(String msg) {
         if (!msg.trim().isEmpty()) {
             try {

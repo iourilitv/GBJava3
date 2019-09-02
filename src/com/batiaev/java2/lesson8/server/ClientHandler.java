@@ -17,7 +17,10 @@ import java.util.List;
  * @author Anton Batiaev
  * @since 06/11/17
  */
-public class ClientHandler extends Thread implements Closeable {
+//TODO use ExecutorService.Deleted
+//public class ClientHandler extends Thread implements Closeable {
+//TODO use ExecutorService.Added
+public class ClientHandler implements Closeable {
     private MyServer server;
     private Socket socket;
     private DataOutputStream out;
@@ -25,6 +28,11 @@ public class ClientHandler extends Thread implements Closeable {
     private String name = "unknown";
     private boolean isAuth = false;
     private LocalDateTime connectTime = LocalDateTime.now();
+
+    int c = 1;//TODO временно
+
+    //TODO use ExecutorService.Added
+    private boolean isBusy = true;
 
     public ClientHandler(MyServer server, Socket socket) {
         this.server = server;
@@ -37,7 +45,8 @@ public class ClientHandler extends Thread implements Closeable {
         }
     }
 
-    @Override
+    //TODO use ExecutorService.Deleted
+    /*//@Override
     public void run() {
         try {
             while (socket.isConnected() && !socket.isClosed()) {
@@ -60,6 +69,81 @@ public class ClientHandler extends Thread implements Closeable {
             e.printStackTrace();
         }
         System.out.println("Client disconnected");
+    }*/
+    //TODO use ExecutorService.Added
+    //цикл авторизации клиента
+    public synchronized void runAuth() {
+        try {
+
+                //TODO временно
+                //System.out.println("1.ClientHandler.runAuth.Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName());
+
+                while (socket.isConnected() && !socket.isClosed()) {
+                    String msg = in.readUTF();
+                    if (msg.startsWith(Command.AUTH_COMMAND.getText())) {
+                        userAuth(msg);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO use ExecutorService.Added
+    public synchronized void runRead() {//TODO CHECK synchronized
+        try {
+
+            //TODO временно
+            System.out.println("1.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
+
+            //отправляем своему клиенту запрос на считываение буфера сообщений
+            sendMessage(Command.READ_BUFFER_CALL.getText() + c++);// + c++ TODO временно
+
+            while (socket.isConnected() && !socket.isClosed()) {
+                if (isAuth) {
+                    String msg = in.readUTF();
+
+                    //TODO временно
+                    System.out.println("2.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName());
+
+                    if (msg.startsWith("/")) {
+
+                        //TODO Not corrected Client closing.Added.ERROR java.net.SocketException: Socket closed
+                        //закрываем соединение, если от своего пришел запрос на закрытие сеанса(окна клиента в т.ч.)
+                        if (msg.startsWith(Command.END_CONNECTION_CALL.getText())){
+                            close();
+                            break;
+                        }
+
+                        //TODO use ExecutorService.Added
+                        //выходим из цикла после завершения сеанса получения сообщений из буфера своего клиента
+                        if (msg.startsWith(Command.READ_BUFFER_END.getText())) {
+
+                            //TODO временно
+                            System.out.println("3.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " msg: " + msg);
+
+                            break;
+                        }
+
+                        if (msg.startsWith(Command.PRIVATE_MESSAGE.getText() + " ")) {
+                            sendPrivateMessage(msg);
+                        } else if (msg.startsWith(Command.CHAT_MESSAGE.getText() + " ")) {
+                            sendChatMessage(msg);
+                        }
+                    } else {
+                        sendBroadcastMessage(name + " написал: " + msg);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //TODO временно.Hided
+        //System.out.println("Client disconnected");
+        //TODO временно.Added
+        System.out.println("9.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
     }
 
     private boolean isUserExist(String userName) {
@@ -74,8 +158,12 @@ public class ClientHandler extends Thread implements Closeable {
         server.sendBroadcastMessage(msg);
     }
 
+    //отправка сообщения своему клиенту
     void sendMessage(String msg) {
-        System.out.println(name + ": " + msg);
+
+        //TODO временно
+        System.out.println("1.ClientHandler.sendMessage.name: " + name + " message: " + msg);
+
         try {
             out.writeUTF(msg);
         } catch (IOException e) {
@@ -128,7 +216,7 @@ public class ClientHandler extends Thread implements Closeable {
         if (data.length == 3) {
             name = server.getAuthService().getNick(data[1], data[2]);
             if (name != null) {
-                sendMessage("/authok " + name);
+                sendMessage(Command.AUTHOK_COMMAND.getText() + " " + name);
                 isAuth = true;
                 sendBroadcastMessage(name + " зашел в чат!");
             } else {
@@ -156,6 +244,22 @@ public class ClientHandler extends Thread implements Closeable {
 
     @Override
     public void close() throws IOException {
+
+        //TODO Not corrected Client closing.Added
+        //отправляем своему клиенту сообщение, закрыть коммуникацию
+        sendMessage(Command.DISCONNECTED.getText());
+
         socket.close();
     }
+
+    //TODO use ExecutorService.Added
+    public boolean getBusy() {
+        return isBusy;
+    }
+
+    //TODO use ExecutorService.Added
+    public void setBusy(boolean busy) {
+        isBusy = busy;
+    }
+
 }

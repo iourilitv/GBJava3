@@ -44,7 +44,10 @@ public class BaseAuthService implements AuthService {
         entries = new ArrayList<>();
 
         //TODO Временно
-        entries.add(new Entry("0", "0", "nick0"));
+        entries.add(new Entry("0", "0", "nick00"));
+        entries.add(new Entry("1", "1", "nick01"));
+        entries.add(new Entry("2", "2", "nick02"));
+        entries.add(new Entry("3", "3", "nick03"));
 
         entries.add(new Entry("login1", "pass1", "nick1"));
         entries.add(new Entry("login2", "pass2", "nick2"));
