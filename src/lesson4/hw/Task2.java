@@ -8,9 +8,7 @@ package lesson4.hw;
  * @author Litvinenko Yuriy
  * DONE 2. На серверной стороне сетевого чата реализовать управление потоками через ExecutorService.
  */
-public class Task2 {
-
-}
+//Ready
 /*
 Task2 сделал.
 Доработал com.batiaev.java2.lesson8.
@@ -35,3 +33,6 @@ class ClientHandler.
    Да, это может быть и дублирование с коллекцией userMessageList, но у них разный функционал и лучше их разделить;
  - Добавил отправку пакета сообщений из буфера по запросу сервера.
  */
+public class Task2 {
+
+}
