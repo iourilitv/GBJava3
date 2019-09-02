@@ -95,7 +95,7 @@ public class ClientHandler implements Closeable {
         try {
 
             //TODO временно
-            System.out.println("1.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
+            //System.out.println("1.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
 
             //отправляем своему клиенту запрос на считываение буфера сообщений
             sendMessage(Command.READ_BUFFER_CALL.getText() + c++);// + c++ TODO временно
@@ -105,7 +105,7 @@ public class ClientHandler implements Closeable {
                     String msg = in.readUTF();
 
                     //TODO временно
-                    System.out.println("2.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName());
+                    //System.out.println("2.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName());
 
                     if (msg.startsWith("/")) {
 
@@ -121,7 +121,7 @@ public class ClientHandler implements Closeable {
                         if (msg.startsWith(Command.READ_BUFFER_END.getText())) {
 
                             //TODO временно
-                            System.out.println("3.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " msg: " + msg);
+                            //System.out.println("3.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " msg: " + msg);
 
                             break;
                         }
@@ -143,7 +143,7 @@ public class ClientHandler implements Closeable {
         //TODO временно.Hided
         //System.out.println("Client disconnected");
         //TODO временно.Added
-        System.out.println("9.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
+        //System.out.println("9.ClientHandler.runRead().Client " + getHandlerName() + " Thread: " + Thread.currentThread().getName() + " isBusy: " + isBusy);
     }
 
     private boolean isUserExist(String userName) {
@@ -162,7 +162,7 @@ public class ClientHandler implements Closeable {
     void sendMessage(String msg) {
 
         //TODO временно
-        System.out.println("1.ClientHandler.sendMessage.name: " + name + " message: " + msg);
+        //System.out.println("1.ClientHandler.sendMessage.name: " + name + " message: " + msg);
 
         try {
             out.writeUTF(msg);
@@ -245,7 +245,7 @@ public class ClientHandler implements Closeable {
     @Override
     public void close() throws IOException {
 
-        //TODO Not corrected Client closing.Added
+        //TODO Not corrected Client closing.Added.ERROR java.net.SocketException: Socket closed
         //отправляем своему клиенту сообщение, закрыть коммуникацию
         sendMessage(Command.DISCONNECTED.getText());
 

@@ -5,10 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -63,6 +60,7 @@ public class MyServer {
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
+                        //занимаем ClientHandler
                         client.setBusy(true);
                         //запускаем поток авторизации
                         client.runAuth();
@@ -97,6 +95,11 @@ public class MyServer {
             while (true) {
                 try {
                     Iterator<ClientHandler> i = clients.iterator();
+
+                    //TODO use ExecutorService.Solving java.util.ConcurrentModificationException.Added
+                    //задержка нужна, начиная со второго не клиенты не могут авторизоваться (пробовал макс.1000)
+                    Thread.sleep(100);
+
                     while (i.hasNext()) {
                         ClientHandler client = i.next();
 
@@ -105,8 +108,10 @@ public class MyServer {
 
                         if (client.isActive() && !client.getBusy()) {
 
+                            //TODO use ExecutorService.Solving java.util.ConcurrentModificationException.Deleted
+                            //Thread.sleep(1000);
+
                             //TODO временно
-                            Thread.sleep(1000);
                             //System.out.println("2.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
 
                             //предоставляем ClientHandler поток из пула и запускаем его задачу
@@ -115,7 +120,9 @@ public class MyServer {
                                 public void run() {
 
                                     //TODO временно
-                                    System.out.println("3.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
+                                    //System.out.println("3.MyServer.rollCallClientsHandlers.client.nick: " + client.getHandlerName());
+
+                                    //занимаем ClientHandler
                                     client.setBusy(true);
                                     //запускаем поток чтения буфера клиента
                                     client.runRead();
@@ -129,8 +136,14 @@ public class MyServer {
 
                         }
                     }
+
+                //
+                } catch (ConcurrentModificationException сe) {
+
+                    System.out.println("99.MyServer.rollCallClientsHandlers: ConcurrentModificationException");
+
                 } catch (Exception e) {
-                    e.printStackTrace();
+                e.printStackTrace();
                 }
             }
         }).start();
