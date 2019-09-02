@@ -137,7 +137,8 @@ public class MyServer {
                         }
                     }
 
-                //
+                //TODO use ExecutorService.Solving java.util.ConcurrentModificationException.Added
+                //Перехватываем исключение возникающее из-за изменения коллекции во время листинга(подключение/отключение пользователя)
                 } catch (ConcurrentModificationException сe) {
 
                     System.out.println("99.MyServer.rollCallClientsHandlers: ConcurrentModificationException");

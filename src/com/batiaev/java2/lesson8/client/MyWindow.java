@@ -83,14 +83,16 @@ public class MyWindow extends JFrame {
                 super.windowClosing(event);
                 try {
 
-                    //TODO Not corrected Client closing.Deleted.ERROR java.io.EOFException
+                    //TODO Not corrected Client closing.Deleted.ERROR java.io.EOFException.
                     //out.writeUTF("end");
                     //TODO Not corrected Client closing.Added.ERROR java.io.EOFException
                     out.writeUTF(Command.END_CONNECTION_CALL.getText());
 
+                    //TODO Not corrected Client closing.Deleted.ERROR java.io.EOFException.Deleted.ERR
                     out.close();
                     in.close();
                     sock.close();
+
                 } catch (IOException e) {
                     System.out.println("something happened on closing");
                 }
@@ -179,6 +181,18 @@ public class MyWindow extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //TODO Not corrected Client closing.Deleted.ERROR java.io.EOFException.Added.ERR
+        /*finally {
+            //закрываем все соединения по выходу из потока(например по закрытию клиентского окна)
+            try {
+                System.out.println("Server disconnected");
+                out.close();
+                in.close();
+                sock.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }*/
     }
 
     //TODO Adding a message storage.Added

@@ -250,6 +250,8 @@ public class ClientHandler implements Closeable {
         sendMessage(Command.DISCONNECTED.getText());
 
         socket.close();
+
+
     }
 
     //TODO use ExecutorService.Added
