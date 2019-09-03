@@ -9,10 +9,11 @@ import java.util.function.Consumer;
  * @since 02/09/19
  */
 public class TextPrinter implements Runnable {
-    private final Controller monitor;
-    private final int count;
-    private final String text;
-    private final Consumer<String> action;
+    //объявляем
+    private final Controller monitor;//экземпляр объекта монитора
+    private final int count;//количество повторений
+    private final String text;//наша строка, которую он будет печатать
+    private final Consumer<String> action;//объект сервиса вывода текста
 
     TextPrinter(String text, int count, Controller monitor,
                 Consumer<String> action) {
@@ -24,17 +25,23 @@ public class TextPrinter implements Runnable {
 
     @Override
     public void run() {
-        synchronized (monitor) {
+        synchronized (monitor) {//синхронизируемся на мониторе
+            //проходим в цикле на количество повторений
             for (int i = 0; i < count; i++) {
                 try {
+                    //ждем пока текущий элемент в списке текстов еще не наш
                     while (!monitor.getCurrent().equals(text)) {
                         monitor.wait();
                     }
-                    action.accept(text);
+                    //выводим в сервис вывода наш текст
+                    action.accept(text);//здесь = System.out.println(text);
+                    //чтобы визуализировать, добавим паузы
                     Thread.sleep(100);
+                    //сдвигаемся на следующий элемент списка текстов
                     monitor.move();
+                    //будим все потоки
                     monitor.notifyAll();
-                } catch (Exception e) {
+                } catch (Exception e) {//ловим исключения
                     System.out.println("Step "+ i
                             + " failed with exception: " + e.getMessage());
                 }
