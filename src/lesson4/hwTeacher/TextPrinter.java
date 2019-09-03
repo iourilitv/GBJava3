@@ -41,6 +41,10 @@ public class TextPrinter implements Runnable {
                     monitor.move();
                     //будим все потоки
                     monitor.notifyAll();
+
+                    //TODO ExecutorService shutdown adding.Added
+                    //декрементируем многопоточный счетчик
+                    monitor.countDownLatch.countDown();
                 } catch (Exception e) {//ловим исключения
                     System.out.println("Step "+ i
                             + " failed with exception: " + e.getMessage());

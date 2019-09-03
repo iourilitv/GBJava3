@@ -2,6 +2,7 @@ package lesson4.hwTeacher;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,6 +30,16 @@ public class Controller {
         return list;
     }
 
+    //TODO ExecutorService shutdown adding.Added
+    //объявляем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
+    CountDownLatch countDownLatch;
+
+    //TODO ExecutorService shutdown adding.Added
+    public Controller() {
+        //создаем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
+        countDownLatch = new CountDownLatch(list.size());
+    }
+
     //геттер, возвращающий текущий элемент списка текстов
     String getCurrent() {
         return list.get(pos);
@@ -47,6 +58,7 @@ public class Controller {
     public static void main(String[] args) {
         //создаем экземпляр контроллера
         Controller controller = new Controller();
+
         //в цикле запускаем потоки для каждого элемента коллекции текстов
         //и одновременно создаем объекты текстового принтера для каждого элемента
         for (String symbol : list) {
@@ -65,8 +77,18 @@ public class Controller {
             /*list.forEach(symbol -> executorService.submit(
                     new TextPrinter(symbol, COUNT, controller)));*/
 
-        //FIXME Не закрывается программа после печати. Добавить закрытие пула потоков
-        //executorService.shutdown();
+        //TODO ExecutorService shutdown adding.Added
+        try {
+            //как только счетчик обнулится
+            controller.countDownLatch.await();
+            //закрываем пул потоков
+            executorService.shutdown();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
+//Result after update.
+//ABCABCABCABCABC
+//Process finished with exit code 0
