@@ -20,18 +20,28 @@ package lesson5.hw;
  * Что примерно должно получиться - ниже.
  */
 public class MainClass {
+    //константа количество участников гонки
     public static final int CARS_COUNT = 4;
+
     public static void main(String[] args) {
+        //Объявление выйти на старт
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
+        //создаем объект гонка с этапами в параметрах
         Race race = new Race(new Road(60), new Tunnel(), new Road(40));
+        //создаем массив участников гонки
         Car[] cars = new Car[CARS_COUNT];
+        //наполняем массив объектами участников(машинами)
         for (int i = 0; i < cars.length; i++) {
             cars[i] = new Car(race, 20 + (int) (Math.random() * 10));
         }
+        //запускаем процесс гонки//FIXME поставить barrierStart
+        //запускаем потоки участников гонки
         for (int i = 0; i < cars.length; i++) {
             new Thread(cars[i]).start();
         }
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+
+        //окончание гонки //FIXME поставить countDownLatch finish
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
     }
 }

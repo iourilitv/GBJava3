@@ -1,10 +1,12 @@
 package lesson5.hw;
 
 public class Road extends Stage {
+    //конструктор этапа участок дороги с разными длинами участка
     public Road(int length) {
         this.length = length;
         this.description = "Дорога " + length + " метров";
     }
+
     @Override
     public void go(Car c) {
         try {
@@ -15,4 +17,5 @@ public class Road extends Stage {
             e.printStackTrace();
         }
     }
+
 }
