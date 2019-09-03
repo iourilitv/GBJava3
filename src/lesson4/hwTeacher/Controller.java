@@ -32,12 +32,17 @@ public class Controller {
 
     //TODO ExecutorService shutdown adding.Added
     //объявляем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
-    CountDownLatch countDownLatch;
+    private CountDownLatch countDownLatch;
 
     //TODO ExecutorService shutdown adding.Added
     public Controller() {
         //создаем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
         countDownLatch = new CountDownLatch(list.size());
+    }
+
+    //TODO ExecutorService shutdown adding.Added
+    public CountDownLatch getCountDownLatch() {
+        return countDownLatch;
     }
 
     //геттер, возвращающий текущий элемент списка текстов
