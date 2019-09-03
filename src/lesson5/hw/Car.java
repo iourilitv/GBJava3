@@ -21,11 +21,6 @@ public class Car implements Runnable {
         return speed;
     }
 
-    //TODO HW.Added
-    public static int getCarsCount() {
-        return CARS_COUNT;
-    }
-
     public Car(Race race, int speed) {
         this.race = race;
         this.speed = speed;
@@ -33,11 +28,7 @@ public class Car implements Runnable {
         //TODO What is that?
         //Для каждого следующего объекта счетчик будет на 1 больше
         CARS_COUNT++;
-
         this.name = "Участник #" + CARS_COUNT;
-
-        //TODO HW.Added
-
     }
 
     @Override
@@ -53,5 +44,10 @@ public class Car implements Runnable {
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
         }
+
+        //TODO HW.Added
+        //декрементируем счетчик по окончании гонки
+        race.getCountDownLatch().countDown();
     }
+
 }

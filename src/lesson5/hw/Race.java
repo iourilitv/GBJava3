@@ -21,18 +21,7 @@ public class Race {
 
     //TODO HW.Added
     //инициализируем пул потоков по одному на каждого участника гонки(машину)
-    private final ExecutorService executorService =
-            Executors.newFixedThreadPool(carCount);
-
-    //TODO HW.Added
-    public ExecutorService getExecutorService() {
-        return executorService;
-    }
-
-    //TODO HW.Added
-    public CountDownLatch getCountDownLatch() {
-        return countDownLatch;
-    }
+    private ExecutorService executorService;
 
     //TODO HW.Deleted
     /*//в конструкторе гонки инициируем коллекцию с этапами гонки в качестве элементов
@@ -46,11 +35,14 @@ public class Race {
     public Race(int carCount, Stage... stages) {
         this.stages = new ArrayList<>(Arrays.asList(stages));
         this.carCount = carCount;
+        initRace();
     }
 
     //TODO HW.Added
     //инициируем параметры гонки
     public void initRace(){
+        //инициализируем пул потоков по одному на каждого участника гонки(машину)
+        executorService = Executors.newFixedThreadPool(carCount);
         //создаем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
         countDownLatch = new CountDownLatch(carCount);
         //создаем массив участников гонки
@@ -62,4 +54,15 @@ public class Race {
             executorService.execute(cars[i]);
         }
     }
+
+    //TODO HW.Added
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
+
+    //TODO HW.Added
+    public CountDownLatch getCountDownLatch() {
+        return countDownLatch;
+    }
+
 }

@@ -48,6 +48,7 @@ public class MainClass {
 
         //TODO ExecutorService shutdown adding.Added
         try {
+            //Thread.sleep(1000);
             //как только счетчик обнулится
             race.getCountDownLatch().await();
             //закрываем пул потоков
