@@ -1,6 +1,7 @@
 package lesson5.hw;
 
 public class Car implements Runnable {
+    //TODO HW.Deleted
     private static int CARS_COUNT;
 
     //TODO What is that?
@@ -20,6 +21,11 @@ public class Car implements Runnable {
         return speed;
     }
 
+    //TODO HW.Added
+    public static int getCarsCount() {
+        return CARS_COUNT;
+    }
+
     public Car(Race race, int speed) {
         this.race = race;
         this.speed = speed;
@@ -29,6 +35,9 @@ public class Car implements Runnable {
         CARS_COUNT++;
 
         this.name = "Участник #" + CARS_COUNT;
+
+        //TODO HW.Added
+
     }
 
     @Override
