@@ -17,6 +17,9 @@ import java.util.concurrent.Executors;
  * Используйте wait/notify/notifyAll.
  * @since 02/09/19
  * Решение шире, чем в задании - универсальный вариант для разных тесктов и разного количества повторений.
+ * Updated with Классы синхронизации. CountDownLatch.
+ * Задача: закрытие пула потоков после выполнения задач всеми потоками.
+ * @author Litvinenko Yuriy
  */
 public class Controller {
     //входные параметры, которые можно менять в других вариантах задачи
