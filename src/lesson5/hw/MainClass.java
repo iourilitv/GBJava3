@@ -58,10 +58,9 @@ public class MainClass {
         //TODO HW.Added
         //создаем объект маршрута с коллекцией этапов
         Route route = new Route(new Road(60), new Tunnel(), new Road(40));
-        //создаем объект для контроля процесса гонки
+        //создаем объект для контроля процесса гонки и начинаем гонку
         RaceControl startRace = new RaceControl(CARS_COUNT, route);
-        //начинаем гонку
-        startRace.start();
+
     }
 }
 //***Пример выполнения кода до корректировки:***

@@ -31,8 +31,7 @@ public class Race {
         this.stages = new ArrayList<>(Arrays.asList(stages));
     }*/
     //TODO HW.Added
-    //в конструкторе гонки инициируем коллекцию с этапами гонки в качестве элементов
-    //из переданных ему массива маршрута с этапами гонки
+    //в конструкторе гонки запускаем иницииализацию самой гонки
     public Race(RaceControl raceControl, int carCount, Route route) {
         this.raceControl = raceControl;
         this.carCount = carCount;
@@ -40,20 +39,18 @@ public class Race {
         initRace();
     }
 
-
     //TODO HW.Added
     //инициируем параметры гонки
     public void initRace(){
         //инициализируем пул потоков по одному на каждого участника гонки(машину)
         executorService = Executors.newFixedThreadPool(carCount);
-
         //создаем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
         countDownLatch = new CountDownLatch(carCount);
-
         //создаем массив участников гонки
         initParticipantsArray();
     }
 
+    //TODO HW.Added
     //создаем массив участников гонки
     private void initParticipantsArray() {
         cars = new Car[carCount];

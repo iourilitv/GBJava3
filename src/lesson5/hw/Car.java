@@ -16,7 +16,7 @@ public class Car implements Runnable {
     private String name;
 
     //TODO HW.Added
-    private int numberInRace;//номер участника в гонке
+    private int numberInRace;//номер участника в гонке//TODO на будущее
 
     //TODO HW.Deleted
     /*public Car(Race race, int speed) {
@@ -56,17 +56,13 @@ public class Car implements Runnable {
     public void run() {
         //готовимся к гонке
         getReadyForRace();
-
-        //начинаем гонку
+        //ожидаем на старте и начинаем гонку по сигналу старта
         goRacing();
-
         //декрементируем счетчик по окончании гонки
         race.getCountDownLatch().countDown();
-
-        //TODO временно
-        //System.out.println("***Car.race.getCountDownLatch().getCount(): " + race.getCountDownLatch().getCount());
     }
 
+    //TODO HW.Added
     private void getReadyForRace() {
         try {
             System.out.println(this.name + " идет к линии старта и готовится.");
@@ -80,15 +76,13 @@ public class Car implements Runnable {
     //TODO HW.Added
     //начинаем гонку
     public void goRacing (){
-
-        //TODO ERR NotWorksBarrier.Added
-        //ждем всех на линии старта
+        //ждем на линии старта всех участников и сигнала к старту
         try {
             race.getRaceControl().getStartLine().await();
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
-
+        //начинаем гонку
         //листаем коллекцию с этапами гонки в качестве элементов
         for (Stage stage: race.getRoute().getStages()) {
             stage.go(this);
