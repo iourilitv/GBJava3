@@ -24,14 +24,11 @@ public class MainClass {
     public static final int CARS_COUNT = 4;
 
     public static void main(String[] args) {
-        //Объявление выйти на старт
+        //TODO HW.Deleted
+        /*//Объявление выйти на старт
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
 
-        //создаем объект гонка с этапами в параметрах
-        Race race = new Race(CARS_COUNT, new Road(60), new Tunnel(), new Road(40));
-
-        //TODO HW.Deleted
-        /*//Race race = new Race(new Road(60), new Tunnel(), new Road(40));
+        //Race race = new Race(new Road(60), new Tunnel(), new Road(40));
         //создаем массив участников гонки
         Car[] cars = new Car[CARS_COUNT];
         //наполняем массив объектами участников(машинами)
@@ -41,14 +38,13 @@ public class MainClass {
         //запускаем потоки участников гонки
         for (int i = 0; i < cars.length; i++) {
             new Thread(cars[i]).start();
-        }*/
+        }
 
-        //запускаем процесс гонки//FIXME поставить barrierStart
+        //запускаем процесс гонки
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
 
         //TODO ExecutorService shutdown adding.Added
         try {
-            //Thread.sleep(1000);
             //как только счетчик обнулится
             race.getCountDownLatch().await();
             //закрываем пул потоков
@@ -57,8 +53,15 @@ public class MainClass {
             e.printStackTrace();
         }
 
-        //окончание гонки //FIXME поставить countDownLatch finish
-        System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
+        //окончание гонки
+        System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");*/
+        //TODO HW.Added
+        //создаем объект маршрута с коллекцией этапов
+        Route route = new Route(new Road(60), new Tunnel(), new Road(40));
+        //создаем объект для контроля процесса гонки
+        RaceControl startRace = new RaceControl(CARS_COUNT, route);
+        //начинаем гонку
+        startRace.start();
     }
 }
 //***Пример выполнения кода до корректировки:***
