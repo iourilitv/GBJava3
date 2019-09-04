@@ -17,12 +17,16 @@ public class Race {
     //передаем объект контроля гонки
     private RaceControl raceControl;
 
+    //объявляем переменную для фиксации времени начала гонки
+    private long startRaceTime;
     //объявляем пул потоков по одному на каждого участника гонки(машину)
     private ExecutorService executorService;
     //объявляем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
     private CountDownLatch countDownLatch;
     //объявляем массив участников гонки
     private Car[] cars;
+    //объявляем объект табло результатов гонки
+    private Scoreboard scoreboard;
 
     //TODO HW.Deleted
     /*//в конструкторе гонки инициируем коллекцию с этапами гонки в качестве элементов
@@ -42,6 +46,8 @@ public class Race {
     //TODO HW.Added
     //инициируем параметры гонки
     public void initRace(){
+        //инициализируем объект табло результатов гонки
+        scoreboard = new Scoreboard(this);
         //инициализируем пул потоков по одному на каждого участника гонки(машину)
         executorService = Executors.newFixedThreadPool(carCount);
         //создаем объект счетчика, чтобы закрыть пул потоков после завершения задач во всех потоках
@@ -59,6 +65,26 @@ public class Race {
             cars[i] = new Car(this, i, 20 + (int) (Math.random() * 10));
             //и запускаем потоки участников гонки
             executorService.execute(cars[i]);
+        }
+    }
+
+    //TODO HW.Added
+    //метод возвращае локальное время начала гонки
+    public long fixStartRaceTime() {
+        return startRaceTime = System.currentTimeMillis();
+    }
+
+    //TODO HW.Added
+    //Вывести результаты гонки
+    public void showRaceResults() {
+        System.out.println("Result of the race: ");
+        //на всякий случай сортируем коллекцию перед выводом
+        scoreboard.sortRaceResults();
+        //пробегаем циклом по коллекции результатов
+        int count = 1;
+        for (Car car: scoreboard.getRaceResults()) {
+            System.out.println(count++ + " place: " + car.getName() +
+                    " with time: " + ((double)car.getParticipantFinishTime() / 1000) + " sec.");
         }
     }
 
@@ -94,5 +120,15 @@ public class Race {
     //TODO HW.Added
     public RaceControl getRaceControl() {
         return raceControl;
+    }
+
+    //TODO HW.Added
+    public long getStartRaceTime() {
+        return startRaceTime;
+    }
+
+    //TODO HW.Added
+    public Scoreboard getScoreboard() {
+        return scoreboard;
     }
 }

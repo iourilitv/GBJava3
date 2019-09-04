@@ -40,6 +40,8 @@ public class RaceControl implements Runnable{
 
     //запускаем процесс гонки
     private void goRacing() {
+        //фиксируем время старта
+        race.fixStartRaceTime();
         //сигнал о начале гонки
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
     }
@@ -54,9 +56,10 @@ public class RaceControl implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         //объявляем об окончании гонки
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
+        //Выводим результаты гонки
+        race.showRaceResults();
     }
 
     public CyclicBarrier getStartLine() {
