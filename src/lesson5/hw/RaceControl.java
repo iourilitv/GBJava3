@@ -1,10 +1,9 @@
 package lesson5.hw;
 
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 //TODO HW.Added
-public class RaceControl extends Thread {
+public class RaceControl extends Thread implements Runnable{
     //количество участников в этой гонке
     private int carCount;
     //массив маршрута гонки с этапами (может выбираться в UI)
@@ -19,8 +18,8 @@ public class RaceControl extends Thread {
         this.carCount = carCount;
         this.route = route;
         //TODO ERR NotWorksBarrier.Added
-        //инициируем объект барьера на стартовой линии
-        startLine = new CyclicBarrier(carCount);
+        //инициируем объект барьера на стартовой линии. Параметры: количество прав и действие
+        startLine = new CyclicBarrier(carCount, this::goRacing);
     }
 
     @Override
@@ -28,11 +27,11 @@ public class RaceControl extends Thread {
         //приглашаем участников на старт(инициируем объект гонки)
         inviteParticipantsToStartLine();
 
-        //собираем всех участников на линии старта.
+        //TODO ERR NotWorksBarrier.Deleted
+        /*//собираем всех участников на линии старта.
         onStartLineWaiting();
-
         //запускаем процесс гонки
-        goRacing();
+        goRacing();*/
 
         //завершаем гонку
         finishRace();
@@ -46,7 +45,8 @@ public class RaceControl extends Thread {
         race = new Race(this, carCount, route);
     }
 
-    //ждем остальных на линии старта
+    //TODO ERR NotWorksBarrier.Deleted
+    /*//ждем остальных на линии старта
     private void onStartLineWaiting(){
         try {
             startLine.await();
@@ -54,7 +54,7 @@ public class RaceControl extends Thread {
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     //запускаем процесс гонки
     private void goRacing() {

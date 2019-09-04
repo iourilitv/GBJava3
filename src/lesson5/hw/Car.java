@@ -1,5 +1,7 @@
 package lesson5.hw;
 
+import java.util.concurrent.BrokenBarrierException;
+
 public class Car implements Runnable {
     //TODO HW.Deleted?
     /*private static int CARS_COUNT;
@@ -61,8 +63,8 @@ public class Car implements Runnable {
         //декрементируем счетчик по окончании гонки
         race.getCountDownLatch().countDown();
 
-        //TODO врменно
-        System.out.println("***Car.race.getCountDownLatch().getCount(): " + race.getCountDownLatch().getCount());
+        //TODO временно
+        //System.out.println("***Car.race.getCountDownLatch().getCount(): " + race.getCountDownLatch().getCount());
     }
 
     private void getReadyForRace() {
@@ -78,6 +80,15 @@ public class Car implements Runnable {
     //TODO HW.Added
     //начинаем гонку
     public void goRacing (){
+
+        //TODO ERR NotWorksBarrier.Added
+        //ждем всех на линии старта
+        try {
+            race.getRaceControl().getStartLine().await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+
         //листаем коллекцию с этапами гонки в качестве элементов
         for (Stage stage: race.getRoute().getStages()) {
             stage.go(this);
