@@ -1,7 +1,7 @@
 package lesson5.hw;
 
 import java.util.concurrent.CyclicBarrier;
-
+//Ready
 //TODO HW.Added
 public class RaceControl implements Runnable{
     //передаем сюда количество участников в этой гонке
@@ -13,7 +13,7 @@ public class RaceControl implements Runnable{
     //объявляем объект барьера на стартовой линии
     private CyclicBarrier startLine;
 
-    public RaceControl(int carCount, Route route) {
+    RaceControl(int carCount, Route route) {
         this.carCount = carCount;
         this.route = route;
         //инициируем объект барьера на стартовой линии. Параметры: количество прав и действие

@@ -1,7 +1,7 @@
 package lesson5.hw;
 
 import java.util.concurrent.Semaphore;
-
+//Ready
 public class Tunnel extends Stage {
     //TODO HW.Adding Semaphore in tunnel.Added
     //создаем объект семафор с заданным лимитом доступа в параметре
@@ -26,7 +26,7 @@ public class Tunnel extends Stage {
                 System.out.println(c.getName() + " начал этап: " + description);
 
                 //TODO HW.Adding Semaphore in tunnel.Added
-                System.out.println("***Свободно мест в тоннеле: " + semaphore.availablePermits());;
+                System.out.println("***Свободно мест в тоннеле: " + semaphore.availablePermits());
 
                 Thread.sleep(length / c.getSpeed() * 1000);
             } catch (InterruptedException e) {

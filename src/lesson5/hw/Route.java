@@ -1,5 +1,5 @@
 package lesson5.hw;
-
+//Ready
 import java.util.ArrayList;
 import java.util.Arrays;
 //TODO HW.Added

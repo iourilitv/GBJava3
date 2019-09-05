@@ -1,7 +1,7 @@
 package lesson5.hw;
 
 import java.util.concurrent.BrokenBarrierException;
-
+//Ready
 public class Car implements Runnable {
     //TODO HW.Deleted
     /*private static int CARS_COUNT;

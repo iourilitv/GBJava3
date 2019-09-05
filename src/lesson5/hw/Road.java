@@ -1,5 +1,5 @@
 package lesson5.hw;
-
+//Ready
 public class Road extends Stage {
     //конструктор этапа участок дороги с разными длинами участка
     Road(int length) {

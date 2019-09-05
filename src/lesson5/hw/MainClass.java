@@ -18,7 +18,7 @@ package lesson5.hw;
  * из пакета util.concurrent.
  * Пример выполнения исходного кода до корректировки - ниже.
  * Что примерно должно получиться - ниже.
- */
+ */ //Ready
 public class MainClass {
     //константа количество участников гонки
     private static final int CARS_COUNT = 4;
