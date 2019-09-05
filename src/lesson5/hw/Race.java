@@ -45,7 +45,7 @@ public class Race {
 
     //TODO HW.Added
     //инициируем параметры гонки
-    public void initRace(){
+    private void initRace(){
         //инициализируем объект табло результатов гонки
         scoreboard = new Scoreboard(this);
         //инициализируем пул потоков по одному на каждого участника гонки(машину)
