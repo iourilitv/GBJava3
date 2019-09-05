@@ -2,7 +2,7 @@ package lesson5.hw;
 
 public abstract class Stage {
     protected int length;
-    protected String description;
+    String description;
 
     public String getDescription() {
         return description;

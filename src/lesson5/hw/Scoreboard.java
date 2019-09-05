@@ -6,21 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 
 //TODO HW.Added
-public class Scoreboard {
+class Scoreboard {
     //передаем сюда объект гонки
     private Race race;
 
     //инициируем синхронизированную коллекцию хранения результатов гонки
     private final List<Car> raceResults = Collections.synchronizedList(new ArrayList<>());
 
-    public Scoreboard(Race race) {
+    Scoreboard(Race race) {
         this.race = race;
     }
 
     //метод формирует коллекцию с результатами гонки
-    public void sortRaceResults() {
+    void sortRaceResults() {
         // окончательно сортируем коллекцию с участников по их результатам
-        Collections.sort(raceResults, new Comparator<Car>() {
+        raceResults.sort(new Comparator<Car>() {
             @Override
             public int compare(Car rhs, Car lhs) {
                 //самый малый в верху
@@ -30,7 +30,7 @@ public class Scoreboard {
     }
 
     //геттер для возврата коллекции результатов гонки
-    public List<Car> getRaceResults() {
+    List<Car> getRaceResults() {
         return raceResults;
     }
 

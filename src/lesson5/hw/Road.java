@@ -2,7 +2,7 @@ package lesson5.hw;
 
 public class Road extends Stage {
     //конструктор этапа участок дороги с разными длинами участка
-    public Road(int length) {
+    Road(int length) {
         this.length = length;
         this.description = "Дорога " + length + " метров";
     }

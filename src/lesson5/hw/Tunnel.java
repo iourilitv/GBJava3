@@ -5,9 +5,9 @@ import java.util.concurrent.Semaphore;
 public class Tunnel extends Stage {
     //TODO HW.Adding Semaphore in tunnel.Added
     //создаем объект семафор с заданным лимитом доступа в параметре
-    Semaphore semaphore = new Semaphore( 2 );
+    private Semaphore semaphore = new Semaphore( 2 );
 
-    public Tunnel() {
+    Tunnel() {
         this.length = 80;
         this.description = "Тоннель " + length + " метров";
     }

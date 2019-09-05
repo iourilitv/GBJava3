@@ -3,7 +3,7 @@ package lesson5.hw;
 import java.util.concurrent.BrokenBarrierException;
 
 public class Car implements Runnable {
-    //TODO HW.Deleted?
+    //TODO HW.Deleted
     /*private static int CARS_COUNT;
 
     //TODO What is that?
@@ -32,7 +32,7 @@ public class Car implements Runnable {
         this.name = "Участник #" + CARS_COUNT;
     }*/
     //TODO HW.Added
-    public Car(Race race, int numberInRace, int speed) {
+    Car(Race race, int numberInRace, int speed) {
         this.race = race;
         this.speed = speed;
         this.numberInRace = numberInRace;
@@ -87,7 +87,7 @@ public class Car implements Runnable {
 
     //TODO HW.Added
     //начинаем гонку
-    public void goRacing (){
+    private void goRacing(){
         //ждем на линии старта всех участников и сигнала к старту
         try {
             race.getRaceControl().getStartLine().await();
@@ -103,8 +103,8 @@ public class Car implements Runnable {
 
     //TODO HW.Added
     //метод возвращаем время прохождения участником всей гонки
-    private long fixParticipantFinishTime() {
-        return participantFinishTime = Math.round(System.currentTimeMillis() - race.getStartRaceTime());
+    private void fixParticipantFinishTime() {
+        participantFinishTime = Math.round(System.currentTimeMillis() - race.getStartRaceTime());
     }
 
     //TODO HW.Added
@@ -115,7 +115,7 @@ public class Car implements Runnable {
 
     //TODO HW.Added
     //метод возвращает true, если участник первым записался в коллекцию результатов
-    public boolean isWinner(Car car){
+    private boolean isWinner(Car car){
         return (race.getScoreboard().getRaceResults().get(0).equals(car));
     }
 
@@ -123,12 +123,12 @@ public class Car implements Runnable {
         return name;
     }
 
-    public int getSpeed() {
+    int getSpeed() {
         return speed;
     }
 
     //TODO HW.Added
-    public long getParticipantFinishTime() {
+    long getParticipantFinishTime() {
         return participantFinishTime;
     }
 }

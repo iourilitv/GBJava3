@@ -62,7 +62,7 @@ public class RaceControl implements Runnable{
         race.showRaceResults();
     }
 
-    public CyclicBarrier getStartLine() {
+    CyclicBarrier getStartLine() {
         return startLine;
     }
 }

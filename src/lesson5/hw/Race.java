@@ -36,7 +36,7 @@ public class Race {
     }*/
     //TODO HW.Added
     //в конструкторе гонки запускаем иницииализацию самой гонки
-    public Race(RaceControl raceControl, int carCount, Route route) {
+    Race(RaceControl raceControl, int carCount, Route route) {
         this.raceControl = raceControl;
         this.carCount = carCount;
         this.route = route;
@@ -70,13 +70,13 @@ public class Race {
 
     //TODO HW.Added
     //метод возвращае локальное время начала гонки
-    public long fixStartRaceTime() {
-        return startRaceTime = System.currentTimeMillis();
+    void fixStartRaceTime() {
+        startRaceTime = System.currentTimeMillis();
     }
 
     //TODO HW.Added
     //Вывести результаты гонки
-    public void showRaceResults() {
+    void showRaceResults() {
         System.out.println("Result of the race: ");
         //на всякий случай сортируем коллекцию перед выводом
         scoreboard.sortRaceResults();
@@ -98,37 +98,32 @@ public class Race {
     }
 
     //TODO HW.Added
-    public ExecutorService getExecutorService() {
+    ExecutorService getExecutorService() {
         return executorService;
     }
 
     //TODO HW.Added
-    public CountDownLatch getCountDownLatch() {
+    CountDownLatch getCountDownLatch() {
         return countDownLatch;
     }
 
     //TODO HW.Added
-    public int getCarCount() {
-        return carCount;
-    }
-
-    //TODO HW.Added
-    public Route getRoute() {
+    Route getRoute() {
         return route;
     }
 
     //TODO HW.Added
-    public RaceControl getRaceControl() {
+    RaceControl getRaceControl() {
         return raceControl;
     }
 
     //TODO HW.Added
-    public long getStartRaceTime() {
+    long getStartRaceTime() {
         return startRaceTime;
     }
 
     //TODO HW.Added
-    public Scoreboard getScoreboard() {
+    Scoreboard getScoreboard() {
         return scoreboard;
     }
 }
