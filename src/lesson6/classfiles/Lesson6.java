@@ -7,7 +7,6 @@ import static java.lang.Math.exp;
 import static java.lang.Math.sin;
 
 /**
- /**
  * GBJava3
  * Java Core. Professional level. 19.08.2019 Webinar. Teacher: Anton Batiaev
  * Урок 6. Обзор средств разработки.
