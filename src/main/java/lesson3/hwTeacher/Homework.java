@@ -23,7 +23,7 @@ import java.util.*;
  * @since 29/08/19
  */
 public class Homework {
-    //private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Homework.class);//TODO not imported class Log
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Homework.class);
     private static File file = new File("src/lesson3/hwTeacher/resources/task3.txt");
 
     public static void main(String[] args) {
@@ -138,7 +138,7 @@ public class Homework {
                 try {
                     int num = Integer.parseInt(s) - 1;
                     if (num < 0 || num > pageCount - 1) {
-                        //log.warn("Такой страницы не существует");//TODO not imported class Log
+                        log.warn("Такой страницы не существует");
                         continue;
                     }
 
@@ -154,7 +154,7 @@ public class Homework {
                     //закрываем поток чтения файла
                     accessToFile.close();
                 } catch (NumberFormatException e) {
-                    //log.warn("Вы ввели некорректные данные");//TODO not imported class Log
+                    log.warn("Вы ввели некорректные данные");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
