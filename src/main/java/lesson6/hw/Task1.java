@@ -1,5 +1,7 @@
 package lesson6.hw;
 
+import java.util.Arrays;
+
 /**
  * GBJava3
  * Java Core. Professional level. 19.08.2019 Webinar. Teacher: Anton Batiaev
@@ -17,7 +19,35 @@ package lesson6.hw;
  */
 public class Task1 {
 
-    public static void main(String[] args) {
+    //private static RuntimeException runtimeException;
 
+    public static void main(String[] args) {
+        int[] initIntArray = {1, 2, 3, 4, 5};
+        int[] array = createArrayWithElementsBehindSample(initIntArray, 4);
+        System.out.println(Arrays.toString(array));
+    }
+
+    private static int[] createArrayWithElementsBehindSample(int[] initArray, int sample) {
+        //int[] updatedArray;
+        //если в метод передан пустой или не инициированный массив или последний элемент равен образцу
+        if(initArray.length == 0 || initArray[initArray.length - 1] == sample){
+            //выбрасываем исключение
+            throw new RuntimeException(
+                    "***The array is empty or the last element of the array is the sample!***"
+            );
+        }
+        //листаем входной массив в обратном порядке
+        for (int i = initArray.length - 1; i >= 0; i--) {
+            //если текущий элемент - образец
+            if(initArray[i] == sample){
+                //проверяем не последний ли он в массиве
+                if(i != initArray.length - 1){
+                    //возвращаем массив только с элементами после образца
+                    return Arrays.copyOfRange(initArray, i + 1, initArray.length);
+                }
+            }
+        }
+        //выбрасываем исключение, если в массиве нет ни одного образца
+        throw new RuntimeException("***The array does't have a sample!***");
     }
 }
