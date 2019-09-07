@@ -9,7 +9,7 @@ import java.util.Arrays;
  * Логирование. Тестирование с использованием JUnit. Класс Assert. Аннотации.
  * Домашняя работа.
  * @author Litvinenko Yuriy
- * 1. Написать метод, которому в качестве аргумента передается не пустой одномерный
+ * DONE 1. Написать метод, которому в качестве аргумента передается не пустой одномерный
  * целочисленный массив. Метод должен вернуть новый массив, который получен путем
  * вытаскивания из исходного массива элементов, идущих после последней четверки.
  * Входной массив должен содержать хотя бы одну четверку, иначе в методе необходимо выбросить
@@ -19,21 +19,18 @@ import java.util.Arrays;
  */
 public class Task1 {
 
-    //private static RuntimeException runtimeException;
-
     public static void main(String[] args) {
         int[] initIntArray = {1, 2, 3, 4, 5};
         int[] array = createArrayWithElementsBehindSample(initIntArray, 4);
         System.out.println(Arrays.toString(array));
     }
 
-    private static int[] createArrayWithElementsBehindSample(int[] initArray, int sample) {
-        //int[] updatedArray;
+    public static int[] createArrayWithElementsBehindSample(int[] initArray, int sample) {
         //если в метод передан пустой или не инициированный массив или последний элемент равен образцу
-        if(initArray.length == 0 || initArray[initArray.length - 1] == sample){
+        if(initArray == null || initArray.length == 0 || initArray[initArray.length - 1] == sample){
             //выбрасываем исключение
             throw new RuntimeException(
-                    "***The array is empty or the last element of the array is the sample!***"
+                    "***The array is null/empty or the last element of the array is the sample!***"
             );
         }
         //листаем входной массив в обратном порядке
