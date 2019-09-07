@@ -5,6 +5,14 @@ import org.junit.Test;
 
 public class Task1Test {
 
+    /* Лишнее. Нельзя подставить другой тип переменных
+    @Test(expected = RuntimeException.class)
+    public void createArrayWithElementsBehindSampleNotAcceptableArgumentsTypeTest1(){
+        float[] initArray = {8.99f, 62f};
+        int sample = 4;
+        Assert.assertArrayEquals(null, Task1.createArrayWithElementsBehindSample(initArray, sample));
+    }*/
+
     @Test(expected = RuntimeException.class)
     public void createArrayWithElementsBehindSampleNullArrayTest(){
         int[] initArray = null;
