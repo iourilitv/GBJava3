@@ -14,7 +14,7 @@ import static java.lang.Math.sin;
  * @author anton
  * @since 05/09/19
  */
-@MyCustomAnnotation(name = "Real lesson 6")
+//@MyCustomAnnotation(name = "Real lesson 6")
 public class Lesson6 {
     private static final Logger log = LoggerFactory.getLogger(Lesson6.class);
 
@@ -31,11 +31,11 @@ public class Lesson6 {
 
     public static void main(String[] args) {
 
-        final MyCustomAnnotation annotation =
+        /*final MyCustomAnnotation annotation =
                 Lesson6.class.getAnnotation(MyCustomAnnotation.class);
-        System.out.println(annotation.name() + " " + annotation.value());
+        System.out.println(annotation.name() + " " + annotation.value());*/
 
-//        example();
+        example();
     }
 
     private static void example() {
