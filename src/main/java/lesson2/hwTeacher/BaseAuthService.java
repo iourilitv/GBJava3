@@ -1,14 +1,15 @@
 package lesson2.hwTeacher;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sqlite.JDBC;
+
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BaseAuthService implements AuthService {
-    //private static final Logger log = LoggerFactory.getLogger(BaseAuthService.class);//нет у меня такого class LoggerFactory
+    private static final Logger log = LoggerFactory.getLogger(BaseAuthService.class);
     private Map<String, User> users = new HashMap<>();
     private static Connection connection;
     private static Statement stmp;
@@ -28,14 +29,14 @@ public class BaseAuthService implements AuthService {
                 users.put(login, new User(login, pass, nick));
             }
         } catch (Exception e) {
-            //log.error("Ошибка инициализации", e);//нет у меня такого class LoggerFactory
+            log.error("Ошибка инициализации", e);
         } finally {
             disconnect();
         }
     }
 
     public static void connect() throws SQLException {
-        //connection = DriverManager.getConnection(JDBC.PREFIX + "main.db");//нет у меня такого JDBC
+        connection = DriverManager.getConnection(JDBC.PREFIX + "main.db");
         stmp = connection.createStatement();
     }
 
@@ -43,12 +44,12 @@ public class BaseAuthService implements AuthService {
         try {
             stmp.close();
         } catch (Exception e) {
-            //log.error("Ошибка закрытия запроса к базе", e);//нет у меня такого class LoggerFactory
+            log.error("Ошибка закрытия запроса к базе", e);
         }
         try {
             connection.close();
         } catch (Exception e) {
-            //log.error("Ошибка закрытия подключения к базе данных", e);//нет у меня такого class LoggerFactory
+            log.error("Ошибка закрытия подключения к базе данных", e);
         }
     }
 
@@ -58,7 +59,7 @@ public class BaseAuthService implements AuthService {
             ResultSet resultSet = stmp.executeQuery("SELECT from users where nick=" + newNick);
             stmp.execute("UPDATE users SET nick=" + newNick + " WHERE nick = " + oldNick);
         } catch (SQLException e) {
-            //log.error("Ошибка обновления логина", e);//нет у меня такого class LoggerFactory
+            log.error("Ошибка обновления логина", e);
         } finally {
             disconnect();
         }
@@ -80,7 +81,7 @@ public class BaseAuthService implements AuthService {
         User user = new User(login, password, nick);
         if (users.containsKey(nick)) {
             users.get(nick).setActive(true);
-            //log.error("User with nick " + nick + "already exist");//нет у меня такого class LoggerFactory
+            log.error("User with nick " + nick + "already exist");
         } else {
             users.put(nick, user);
             persist(user);
@@ -95,7 +96,7 @@ public class BaseAuthService implements AuthService {
                     + user.getLogin() + ", "
                     + user.getPassword() + ", " + user.getNickname() + "  )");
         } catch (SQLException e) {
-            //log.error("Ошибка при добавлении пользователя", e);//нет у меня такого class LoggerFactory
+            log.error("Ошибка при добавлении пользователя", e);
         } finally {
             disconnect();
         }
