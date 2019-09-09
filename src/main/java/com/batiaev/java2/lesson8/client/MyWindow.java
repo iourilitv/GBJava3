@@ -148,8 +148,13 @@ public class MyWindow extends JFrame {
                                 setTitle(nick + "'s client");
                                 setAuthorized(true);
                             } else if (msg.startsWith(Command.DISCONNECTED.getText())) {
-                                jta.append("Connection closed..=(");
+                                jta.append("Connection closed..=(\n");
                                 setAuthorized(false);
+
+                                //TODO Not corrected Client closing.Added.OK
+                                //java.io.EOFException
+                                break;
+
                             } else if (isAuthorized()) {
                                 //if (msg.equalsIgnoreCase("end session")) break;//TODO Почему без /. Найти источник
 
@@ -201,8 +206,12 @@ public class MyWindow extends JFrame {
         //создаем временную коллекцию
         userMessageList = new ArrayList<>(FILE_STORAGE_CAPACITY);
         //создаем путь к файлу для хранения истории собщений
-        userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_messageStorage.txt");
-        userMessageStorageFile = new File(userMessageStorageFileName);
+        //TODO ERR duplicates after relogging.Deleted
+        /*String userMessageStorageFileName = userMessageStorageFileName.concat(nick + "_messageStorage.txt");
+        userMessageStorageFile = new File(userMessageStorageFileName);*/
+        //TODO ERR duplicates after relogging.Added.OK
+        String userMessageStorageFileNameLocal = userMessageStorageFileName.concat(nick + "_messageStorage.txt");
+        userMessageStorageFile = new File(userMessageStorageFileNameLocal);
 
         //если файл уже создан
         if(isCreatedUserMessageStorageFile()){

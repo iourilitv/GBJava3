@@ -1,5 +1,8 @@
 package com.batiaev.java2.lesson8.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,6 +19,11 @@ import java.util.concurrent.Executors;
  * @since 06/11/17
  */
 public class MyServer {
+
+    //TODO lesson6-hw-Task3.AddLogging.Added
+    //инициализируем логгера
+    private static final Logger log = LoggerFactory.getLogger(MyServer.class);
+
     private static final long MAX_DELAY_TIME = 120;
 
     //TODO use ExecutorService.Added
@@ -141,7 +149,11 @@ public class MyServer {
                 //Перехватываем исключение возникающее из-за изменения коллекции во время листинга(подключение/отключение пользователя)
                 } catch (ConcurrentModificationException сe) {
 
-                    System.out.println("99.MyServer.rollCallClientsHandlers: ConcurrentModificationException");
+                    //TODO lesson6-hw-Task3.AddLogging.Deleted
+                    //System.out.println("99.MyServer.rollCallClientsHandlers: ConcurrentModificationException");
+                    //TODO lesson6-hw-Task3.AddLogging.Added
+                    //логируем сообщение об исключении
+                    log.error("99.MyServer.rollCallClientsHandlers: ConcurrentModificationException");
 
                 } catch (Exception e) {
                 e.printStackTrace();
@@ -196,5 +208,10 @@ public class MyServer {
             if (name.equals(userName) && c.isActive())
                 c.sendMessage(from + " написал лично " + userName + ": " + message);
         }
+    }
+
+    //TODO Not corrected Client closing.Added
+    public List<ClientHandler> getClients() {
+        return clients;
     }
 }

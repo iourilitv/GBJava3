@@ -1,6 +1,8 @@
 package com.batiaev.java2.lesson8.server;
 
 import com.batiaev.java2.lesson8.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.DataInputStream;
@@ -21,6 +23,11 @@ import java.util.List;
 //public class ClientHandler extends Thread implements Closeable {
 //TODO use ExecutorService.Added
 public class ClientHandler implements Closeable {
+
+    //TODO lesson6-hw-Task3.AddLogging.Added
+    //инициализируем логгера
+    private static final Logger log = LoggerFactory.getLogger(ClientHandler.class);
+
     private MyServer server;
     private Socket socket;
     private DataOutputStream out;
@@ -91,7 +98,7 @@ public class ClientHandler implements Closeable {
     }
 
     //TODO use ExecutorService.Added
-    public synchronized void runRead() {//TODO CHECK synchronized
+    public synchronized void runRead() {
         try {
 
             //TODO временно
@@ -163,6 +170,12 @@ public class ClientHandler implements Closeable {
 
         //TODO временно
         //System.out.println("1.ClientHandler.sendMessage.name: " + name + " message: " + msg);
+
+        //TODO lesson6-hw-Task3.AddLogging.Added
+        //логируем сообщения, кроме сообщений о чтении буфера
+        if(!msg.startsWith(Command.READ_BUFFER_CALL.getText())){
+            log.info("To " + name + " message: " + msg);
+        }
 
         try {
             out.writeUTF(msg);
@@ -249,9 +262,14 @@ public class ClientHandler implements Closeable {
         //отправляем своему клиенту сообщение, закрыть коммуникацию
         sendMessage(Command.DISCONNECTED.getText());
 
+        //TODO lesson6-hw-Task3.AddLogging.Added
+        //логируем сообщение
+        log.info("User " + name + " has disconnected.");
+
         socket.close();
 
-
+        //TODO Not corrected Client closing.Added
+        server.getClients().remove(this);
     }
 
     //TODO use ExecutorService.Added

@@ -1,5 +1,8 @@
 package com.batiaev.java2.lesson8.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,11 @@ import java.util.List;
  * @since 06/11/17
  */
 public class BaseAuthService implements AuthService {
+
+    //TODO lesson6-hw-Task3
+    //инициализируем логгера
+    private static final Logger log = LoggerFactory.getLogger(BaseAuthService.class);
+
     private class Entry {
         private String login;
         private String password;

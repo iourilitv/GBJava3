@@ -17,11 +17,13 @@ public class Task3 {
     private static final Logger log = LoggerFactory.getLogger(Task3.class);
 
     public static void main(String[] args) {
+        log.trace( "Trace" );
         log.debug( "Debug" );
         log.info( "Info" );
         log.warn( "Warn" );
         log.error( "Error" );
         //log.fatal( "Fatal" );
+
         log.info( "String: {}." , "Hello, World" );
     }
 }
