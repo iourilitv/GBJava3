@@ -16,7 +16,7 @@ import java.util.Arrays;
  * [ 1 1 1 1 1 1 ] -> false
  * [ 4 4 4 4 ] -> false
  * [ 1 4 4 1 1 4 3 ] -> false
- */
+ */ //READY
 public class Task2 {
     public static void main(String[] args) {
         //int[] initArray = {1, 2, 3, 4, 5};

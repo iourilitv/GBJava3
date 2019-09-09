@@ -1,7 +1,7 @@
 package lesson6.hw;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 /**
  * GBJava3
@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
  * Логирование. Тестирование с использованием JUnit. Класс Assert. Аннотации.
  * Домашняя работа.
  * @author Litvinenko Yuriy
- * 3.* Добавить на серверную сторону сетевого чата логирование событий
+ * DONE 3.* Добавить на серверную сторону сетевого чата логирование событий
  * (сервер запущен, произошла ошибка, клиент подключился, клиент прислал сообщение/команду).
+ * //READY
+ * (см.\src\main\com.batiaev.java2.lesson8.server классы MyServer и ClientHandler).
  */
 public class Task3 {
-    private static final Logger log = LoggerFactory.getLogger(Task3.class);
+    /*private static final Logger log = LoggerFactory.getLogger(Task3.class);
 
     public static void main(String[] args) {
         log.trace( "Trace" );
@@ -25,5 +27,5 @@ public class Task3 {
         //log.fatal( "Fatal" );
 
         log.info( "String: {}." , "Hello, World" );
-    }
+    }*/
 }

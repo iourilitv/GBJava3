@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * Net Chat App of Java2
  * @author Anton Batiaev
  * @since 06/11/17
- */
+ */ //READY
 public class MyServer {
 
     //TODO lesson6-hw-Task3.AddLogging.Added

@@ -2,9 +2,7 @@ package lesson6.hw;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
+//READY
 public class Task2Test {
 
     @Test(expected = RuntimeException.class)

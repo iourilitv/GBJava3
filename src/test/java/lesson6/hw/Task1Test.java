@@ -2,7 +2,7 @@ package lesson6.hw;
 
 import org.junit.Assert;
 import org.junit.Test;
-
+//READY
 public class Task1Test {
 
     /* Лишнее. Нельзя подставить другой тип переменных

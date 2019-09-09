@@ -18,7 +18,7 @@ import java.util.List;
  * Net Chat App of Java2
  * @author Anton Batiaev
  * @since 06/11/17
- */
+ */ //READY
 //TODO use ExecutorService.Deleted
 //public class ClientHandler extends Thread implements Closeable {
 //TODO use ExecutorService.Added
