@@ -49,7 +49,7 @@ public class Task1 {
             //если текущий элемент - образец
             if(initArray[i] == sample){
                 //проверяем не последний ли он в массиве
-                if(i != initArray.length - 1){
+                if(i != initArray.length - 1){//TODO Лишнее! Уже проверено на входе
                     //возвращаем массив только с элементами после образца
                     return Arrays.copyOfRange(initArray, i + 1, initArray.length);
                 }
