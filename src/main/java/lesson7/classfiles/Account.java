@@ -1,4 +1,4 @@
-package lesson7;
+package lesson7.classfiles;
 
 import java.io.Serializable;
 import java.util.UUID;

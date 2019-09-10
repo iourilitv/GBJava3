@@ -1,4 +1,4 @@
-package lesson7;
+package lesson7.classfiles;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
