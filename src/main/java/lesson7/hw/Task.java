@@ -11,17 +11,6 @@ public class Task {
     }
 
     public static int[] createArrayWithElementsBehindSample(int[] initArray, int sample) {
-
-        /* Лишнее. Это делает компилятор и не дает запустить даже тест.
-        //если в метод переданы агрументы не приемлемых типов
-        if (!initArray.getClass().getTypeName().toLowerCase().startsWith("int") ||
-                !((Object)sample).getClass().getSimpleName().toLowerCase().startsWith("int")){
-            //выбрасываем исключение
-            throw new RuntimeException(
-                    "***The array or variable have not acceptable type!***"
-            );
-        }*/
-
         //если в метод передан пустой или не инициированный массив или последний элемент равен образцу
         if(initArray == null || initArray.length == 0 || initArray[initArray.length - 1] == sample){
             //выбрасываем исключение
