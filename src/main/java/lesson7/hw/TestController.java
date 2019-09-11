@@ -3,8 +3,6 @@ package lesson7.hw;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -38,25 +36,88 @@ public class TestController {
     public static void start(Class testClass){
         methods = getClassMethods(testClass);
         printArray(methods);
-        //Annotation annotationBeforeSuite = new Annotation("BeforeSuit");
+
+        //Проверяем нет ли дубликатов у методов с аннотациями @BeforeSuite или @AfterSuite
+        checkMethodsArray();
+        //сортируем массив методов по значению приоритета
+        sortMethodsArray();
 
         //System.out.println(Annotation.class.getDeclaredFields().length);//0
         //printMethodsAnnotations(methods);
 
-        //ищем метод, с аннотацией BeforeSuite
-        //launchBeforeSuite(findMethodViaAnnotation(annotationBeforeSuite));
+        /*try {
+            //ищем метод, с аннотацией BeforeSuite и запускаем его первым
+            Method beforeSuite = findMethodViaAnnotation("BeforeSuite");
+            if(beforeSuite != null){
+                launchBeforeSuite(beforeSuite);
+            }
 
-        try {
+            //запускаем тесты
             launchTests();
+
+            //ищем метод, с аннотацией BeforeSuite и запускаем его первым
+            Method afterSuite = findMethodViaAnnotation("AfterSuite");
+            if(beforeSuite != null){
+                launchBeforeSuite(afterSuite);
+            }
         } catch (InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
-        }
-        //launchAfterSuite();
+        }*/
     }
 
-    //метод возвращает все объявленные аннотации класса в параметрах
-    private static Annotation getMethodAnnotation(Method method) {
-        return method.getAnnotation(Test.class);
+    //Методы с аннотациями @BeforeSuite и @AfterSuite должны присутствовать в единственном
+    // экземпляре, иначе необходимо бросить RuntimeException при запуске «тестирования»
+    private static void checkMethodsArray() {
+        int beforeSuiteCount = 0;
+        int afterSuiteCount = 0;
+        for (Method method: methods) {
+            //проверяем нет ли дубликатов методов с аннотацией BeforeSuite
+            if(method.getAnnotation(BeforeSuite.class) != null) {
+                //System.out.println(method.getDeclaredAnnotation(BeforeSuite.class).annotationType().getSimpleName());
+                if(++beforeSuiteCount > 1){
+                    throw new RuntimeException("There are more than one methods with BeforeSuite annotation!");
+                }
+            }
+            //проверяем нет ли дубликатов методов с аннотацией AfterSuite
+            if(method.getAnnotation(AfterSuite.class) != null){
+                if(++afterSuiteCount > 1){
+                    throw new RuntimeException("There are more than one methods with AfterSuite annotation!");
+                }
+            }
+        }
+        System.out.println("There is no duplicates in the class!");
+    }
+
+    //сортируем массив методов по значению приоритета
+    private static void sortMethodsArray() {
+        int beforeSuiteIndex = -1;
+        int afterSuiteIndex = - 1;
+        Method tempMethod;
+
+        //сначала расставляем BeforeSuite и AfterSuite
+        for (int i = 0; i < methods.length; i++) {
+            //запоминаем текущий метод
+            tempMethod = methods[i];
+            //если метод с аннотацией BeforeSuite
+            if(methods[i].getAnnotation(BeforeSuite.class) != null) {
+                beforeSuiteIndex = i;
+            }
+            //ищем на каком месте
+            if(methods[i].getAnnotation(AfterSuite.class) != null) {
+                afterSuiteIndex = i;
+            }
+
+
+        }
+        /*for (Method method: methods) {
+
+            if(method.getAnnotation(AfterSuite.class) != null){
+                if(++afterSuiteCount > 1){
+                    throw new RuntimeException("There are more than one methods with AfterSuite annotation!");
+                }
+            }
+        }*/
+        System.out.println("beforeSuiteIndex: " + beforeSuiteIndex + " . afterSuiteIndex: " + afterSuiteIndex);
     }
 
     //метод возвращает все объявленные методы класса в параметрах
@@ -64,34 +125,23 @@ public class TestController {
         return testClass.getDeclaredMethods();
     }
 
-    private static Method findMethodViaAnnotation(Method[] inMethod, Annotation annotation){
-        Method outMethod = null;
-        //листаем массив методов класса
-        for (Method m: inMethod) {
-            if(getMethodAnnotation(m) != null && getMethodAnnotation(m).equals(annotation)){
-                outMethod = m;
-            }
-        }
-        return outMethod;
-    }
-
     //запускаем метод
-    private static void launchBeforeSuite(Method method) {
-
-    }
+    /*private static void launchBeforeSuite(Method beforeSuite) throws InvocationTargetException, IllegalAccessException {
+        beforeSuite.invoke(new Tests());
+    }*/
 
     private static void launchAfterSuite() {
 
     }
 
-    private static void launchTests() throws InvocationTargetException, IllegalAccessException {
+    /*private static void launchTests() throws InvocationTargetException, IllegalAccessException {
         for (Method method: methods) {
             if(method.getName().equals("CorrectArrayTestCreateArrayWithElementsBehindSample")){
                 method.invoke(new Tests());
             }
         }
         //FIXME К каждому тесту необходимо добавить приоритеты (int числа от 1 до 10)
-    }
+    }*/
 
     static void assertArrayEquals(int[] expectedArray, int[] actualArray){//FIXME КАК принять массив любой типа?
         //если массивы разной длины - тест провален
@@ -140,10 +190,49 @@ public class TestController {
     public static void printMethodsAnnotations(Method[] methods){
         System.out.println("methods.getClass().getSimpleName(): " + methods.getClass().getSimpleName());
         for (Method o: methods) {
+            if(o.getAnnotation(BeforeSuite.class) != null) {
+                //System.out.println(o + " - getAnnotation(MyTest.class): " + o.getAnnotation(Test.class));
+                //System.out.println(o + " - getDeclaredAnnotation(MyTest.class): " + o.getDeclaredAnnotation(Test.class));
+                System.out.println(o + " - getDeclaredAnnotation(MyTest.class).annotationType().getSimpleName(): " + o.getDeclaredAnnotation(BeforeSuite.class).annotationType().getSimpleName());
+            }
             if(o.getAnnotation(Test.class) != null) {
-                System.out.println(o + " - getAnnotation(MyTest.class): " + o.getAnnotation(Test.class));
-                System.out.println(o + " - getDeclaredAnnotation(MyTest.class): " + o.getDeclaredAnnotation(Test.class));
+                //System.out.println(o + " - getAnnotation(MyTest.class): " + o.getAnnotation(Test.class));
+                //System.out.println(o + " - getDeclaredAnnotation(MyTest.class): " + o.getDeclaredAnnotation(Test.class));
+                System.out.println(o + " - getDeclaredAnnotation(MyTest.class).annotationType().getSimpleName(): " + o.getDeclaredAnnotation(Test.class).annotationType().getSimpleName());
             }
         }
     }
+
+
+    /*//метод возвращает все объявленные аннотации класса в параметрах
+    private static Annotation getMethodAnnotation(Method method) {
+        return method.getAnnotation(Test.class);
+    }*/
+
+    /*private static Method findMethodViaAnnotation(Annotation annotation){
+        Method outMethod = null;
+        //листаем массив методов класса
+        for (Method m: methods) {
+            if(getMethodAnnotation(m) != null
+                    && getMethodAnnotation(m).equals(annotation)){
+                outMethod = m;
+            }
+        }
+        return outMethod;
+    }*/
+
+    /*private static Method findMethodViaAnnotation(String annotationName){
+        Method outMethod = null;
+        //листаем массив методов класса
+        for (Method m: methods) {
+            if(getMethodAnnotation(m) != null
+                    && (getMethodAnnotation(m).annotationType().getSimpleName().equals(annotationName))){
+                outMethod = m;
+                //System.out.println(m.getName());
+            }
+        }
+        return outMethod;
+    }*/
+
+
 }

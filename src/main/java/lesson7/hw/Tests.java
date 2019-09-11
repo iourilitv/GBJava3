@@ -4,29 +4,40 @@ public class Tests {
     public Tests() {
     }
 
-    @Test(name="NullArrayTest",  priority = 6, expected = RuntimeException.class)
+    @BeforeSuite
+    public void beforeSuite(){
+        //создать коллекцию из методов класса отсортированную по приоритету
+        //TestController.
+    }
+    /*@BeforeSuite
+    public void beforeSuite2(){
+        //создать коллекцию из методов класса отсортированную по приоритету
+        //TestController.
+    }*/
+
+    @Test(name="NullArrayTest", priority = 10, expected = RuntimeException.class)
     public void NullArrayTestCreateArrayWithElementsBehindSample() {
         int[] initArray = null;
         int sample = 4;
         TestController.assertArrayEquals((int[])null, Task.createArrayWithElementsBehindSample((int[])initArray, sample));
     }
 
-    //@Test(expected = RuntimeException.class)
-    public void createArrayWithElementsBehindSampleEmptyArrayTest() {
+    @Test(name = "EmptyArrayTest", priority = 8, expected = RuntimeException.class)
+    public void EmptyArrayTestCreateArrayWithElementsBehind() {
         int[] initArray = new int[0];
         int sample = 4;
         //Assert.assertArrayEquals((int[])null, Task1.createArrayWithElementsBehindSample(initArray, sample));
     }
 
-    //@Test(expected = RuntimeException.class)
-    public void createArrayWithElementsBehindSampleNotElementsBehindSampleTest() {
+    @Test(name = "NotElementsBehindSampleTest", priority = 3, expected = RuntimeException.class)
+    public void NotElementsBehindSampleTestCreateArrayWithElementsBehindSample() {
         int[] initArray = new int[]{1, 5, 6161, 4};
         int sample = 4;
         //Assert.assertArrayEquals((int[])null, Task1.createArrayWithElementsBehindSample(initArray, sample));
     }
 
-    //@Test(expected = RuntimeException.class)
-    public void createArrayWithElementsBehindSampleNotSampleInArrayTest() {
+    @Test(name = "NotSampleInArrayTest",  expected = RuntimeException.class)
+    public void NotSampleInArrayTestCreateArrayWithElementsBehindSample() {
         int[] initArray = new int[]{1, 5, 6161};
         int sample = 4;
         //Assert.assertArrayEquals((int[])null, Task1.createArrayWithElementsBehindSample(initArray, sample));
@@ -40,4 +51,15 @@ public class Tests {
         System.out.println("CorrectArrayTest");
         TestController.assertArrayEquals(expectedArray, Task.createArrayWithElementsBehindSample(initArray, sample));
     }
+
+    @AfterSuite
+    public void afterSuite(){
+        //распечатать коллекцию с результатами тестов
+        //FIXME
+    }
+    /*@AfterSuite
+    public void afterSuite2(){
+        //распечатать коллекцию с результатами тестов
+        //FIXME
+    }*/
 }
