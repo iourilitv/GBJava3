@@ -1,8 +1,6 @@
 package lesson7.hw;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -11,7 +9,7 @@ import java.lang.reflect.Method;
  * Урок 7. Reflection API и аннотации.
  * Домашняя работа.
  * @author Litvinenko Yuriy
- * Создать класс, который может выполнять «тесты». В качестве тестов выступают классы с
+ * DONE Создать класс, который может выполнять «тесты». В качестве тестов выступают классы с
  * наборами методов с аннотациями @Test. Для этого у него должен быть статический метод start(),
  * которому в качестве параметра передается или объект типа Class, или имя класса.
  * Из «класса-теста» вначале должен быть запущен метод с аннотацией @BeforeSuite, если такой имеется.
@@ -24,8 +22,7 @@ import java.lang.reflect.Method;
  * этой библиотеки: проект пишется с нуля.
  */
 public class TestController {
-    //инициализируем логгера
-    //private static final Logger log = LoggerFactory.getLogger(TestController.class);
+    //объявляем массив методов класса
     private static Method[] methods;
 
     public static void main(String[] args) {
@@ -34,38 +31,23 @@ public class TestController {
 
     //метод контроля выполнения тестов в тестовом классе в аргументе
     public static void start(Class testClass){
+        //инициируем массив из методов класса
         methods = getClassMethods(testClass);
-        //printArray(methods);
-
         //Проверяем нет ли дубликатов у методов с аннотациями @BeforeSuite или @AfterSuite
         checkMethodsArray();
         //сортируем массив методов по значению приоритета
         sortMethodsArray();
 
-        //System.out.println(methods[3].getAnnotation(Test.class).priority());
-        //printMethodsAnnotations(methods);
+        //TODO Временно
+        System.out.println("Sorted array.");
+        printSortedArray(methods);
 
-        /*try {
-            //ищем метод, с аннотацией BeforeSuite и запускаем его первым
-            Method beforeSuite = findMethodViaAnnotation("BeforeSuite");
-            if(beforeSuite != null){
-                launchBeforeSuite(beforeSuite);
-            }
-
-            //запускаем тесты
-            launchTests();
-
-            //ищем метод, с аннотацией BeforeSuite и запускаем его первым
-            Method afterSuite = findMethodViaAnnotation("AfterSuite");
-            if(beforeSuite != null){
-                launchBeforeSuite(afterSuite);
-            }
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }*/
+        //запускаем тесты
+        launchTests();
     }
 
-    //Методы с аннотациями @BeforeSuite и @AfterSuite должны присутствовать в единственном
+    //Метод проверки корректности массива методов класса
+    // Методы с аннотациями @BeforeSuite и @AfterSuite должны присутствовать в единственном
     // экземпляре, иначе необходимо бросить RuntimeException при запуске «тестирования»
     private static void checkMethodsArray() {
         int beforeSuiteCount = 0;
@@ -92,8 +74,6 @@ public class TestController {
     private static void sortMethodsArray() {
         int beforeSuiteIndex = -1;
         int afterSuiteIndex = - 1;
-        //Method tempMethod;
-
         //***сначала расставляем BeforeSuite и AfterSuite
         for (int i = 0; i < methods.length; i++) {
             //если метод - это метод с аннотацией BeforeSuite
@@ -138,7 +118,6 @@ public class TestController {
                 for (int j = i + 1; j < endIndex; j++) {
                     //если у предыдущего метода приоритет меньше, то меняем местами
                     if (methods[i].getAnnotation(Test.class).priority() < methods[j].getAnnotation(Test.class).priority()) {
-                        System.out.println("i: " + i + " . j: " + j);
                         //запоминаем текущий j метод
                         Method tempMethod = methods[j];
                         //записываем на его место текущий i метод
@@ -149,11 +128,6 @@ public class TestController {
                 }
             }
         }
-        //System.out.println("beforeSuiteIndex: " + beforeSuiteIndex + " . afterSuiteIndex: " + afterSuiteIndex);
-        System.out.println("after.");
-        printArray(methods);
-        System.out.println("sorted.");
-        printSortedArray(methods);
     }
 
     //метод возвращает все объявленные методы класса в параметрах
@@ -161,44 +135,48 @@ public class TestController {
         return testClass.getDeclaredMethods();
     }
 
-    //запускаем метод
-    /*private static void launchBeforeSuite(Method beforeSuite) throws InvocationTargetException, IllegalAccessException {
-        beforeSuite.invoke(new Tests());
-    }*/
-
-    private static void launchAfterSuite() {
-
-    }
-
-    /*private static void launchTests() throws InvocationTargetException, IllegalAccessException {
+    private static void launchTests(){
         for (Method method: methods) {
-            if(method.getName().equals("CorrectArrayTestCreateArrayWithElementsBehindSample")){
+            try {
                 method.invoke(new Tests());
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                //если исключение совпадает с expected в параметре аннотации к методу
+                if(method.getAnnotation(Test.class).expected().equals(e.getCause().getClass())){
+                    //тест пройден
+                    System.out.println(e.getCause().getClass().getSimpleName() + ". The test has passed!");
+                } else {
+                    //если не совпадает - тест не пройден
+                    System.out.println(
+                            "*Actual: " + e.getCause().getClass().getSimpleName()
+                            + ". But expected: "
+                            + method.getAnnotation(Test.class).expected().getSimpleName()
+                            + ". The test has failed!");
+                }
             }
         }
-        //FIXME К каждому тесту необходимо добавить приоритеты (int числа от 1 до 10)
-    }*/
+    }
 
-    static void assertArrayEquals(int[] expectedArray, int[] actualArray){//FIXME КАК принять массив любой типа?
+    //Метод сравнения текущего массива с ожидаемым
+    //FIXME КАК принять массив любой типа?
+    static void assertArrayEquals(int[] expectedArray, int[] actualArray){
         //если массивы разной длины - тест провален
         if(expectedArray.length != actualArray.length){
             System.out.println("The test has failed!");
-            //log.info("The test has failed!");
             return;
         }
-        //если любой элемент актуального массива не равен соответствующему элементу
-        // ожидаемого массива - тест провален
+        //сравниваем массивы по элементно
         for (int i = 0; i < actualArray.length; i++) {
+            //если любой элемент актуального массива не равен соответствующему элементу
+            // ожидаемого массива - тест провален
             if (expectedArray[i] != actualArray[i]){
                 System.out.println("The test has failed!");
-                //log.info("The test has failed!");
                 return;
             }
         }
         System.out.println("The test has passed!");
-        //log.info("The test has passed!");
     }
 
+    //TODO Временно
     public static void printArray(Method[] inArray){
 //        System.out.println("inArray.getClass().getSimpleName(): " + inArray.getClass().getSimpleName());
 //        System.out.println("inArray.getClass().getComponentType(): " + inArray.getClass().getComponentType());
@@ -211,13 +189,17 @@ public class TestController {
         }
     }
 
-    public static void printSortedArray(Method[] inArray){
+    //TODO Временно
+    private static void printSortedArray(Method[] inArray){
         for (Method o: inArray) {
             if(o.getAnnotation(Test.class) != null) {
-                System.out.println("o.getName(): " + o.getName() + " - priority: " + o.getAnnotation(Test.class).priority());            }
+                //System.out.println("o.getName(): " + o.getName() + " - priority: " + o.getAnnotation(Test.class).priority());
+                System.out.println(o.getAnnotation(Test.class).name() + " - priority: " + o.getAnnotation(Test.class).priority());
+            }
         }
     }
 
+    //TODO Временно
     public static void printMethodsAnnotations(Method[] methods){
         System.out.println("methods.getClass().getSimpleName(): " + methods.getClass().getSimpleName());
         for (Method o: methods) {
@@ -233,37 +215,5 @@ public class TestController {
             }
         }
     }
-
-
-    /*//метод возвращает все объявленные аннотации класса в параметрах
-    private static Annotation getMethodAnnotation(Method method) {
-        return method.getAnnotation(Test.class);
-    }*/
-
-    /*private static Method findMethodViaAnnotation(Annotation annotation){
-        Method outMethod = null;
-        //листаем массив методов класса
-        for (Method m: methods) {
-            if(getMethodAnnotation(m) != null
-                    && getMethodAnnotation(m).equals(annotation)){
-                outMethod = m;
-            }
-        }
-        return outMethod;
-    }*/
-
-    /*private static Method findMethodViaAnnotation(String annotationName){
-        Method outMethod = null;
-        //листаем массив методов класса
-        for (Method m: methods) {
-            if(getMethodAnnotation(m) != null
-                    && (getMethodAnnotation(m).annotationType().getSimpleName().equals(annotationName))){
-                outMethod = m;
-                //System.out.println(m.getName());
-            }
-        }
-        return outMethod;
-    }*/
-
 
 }
