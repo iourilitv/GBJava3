@@ -2,7 +2,7 @@ package lesson7.hw;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
+//READY
 /**
  * GBJava3
  * Java Core. Professional level. 19.08.2019 Webinar. Teacher: Anton Batiaev

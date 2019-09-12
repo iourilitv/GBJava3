@@ -1,7 +1,7 @@
 package lesson7.hw;
 
 import java.util.Arrays;
-
+//READY
 public class Task {
 
     public static void main(String[] args) {

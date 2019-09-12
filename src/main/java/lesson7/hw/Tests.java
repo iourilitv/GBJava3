@@ -1,7 +1,7 @@
 package lesson7.hw;
 
 import java.lang.reflect.InvocationTargetException;
-
+//READY
 public class Tests {
     Tests() {
     }
