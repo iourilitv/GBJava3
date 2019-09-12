@@ -35,14 +35,14 @@ public class TestController {
     //метод контроля выполнения тестов в тестовом классе в аргументе
     public static void start(Class testClass){
         methods = getClassMethods(testClass);
-        printArray(methods);
+        //printArray(methods);
 
         //Проверяем нет ли дубликатов у методов с аннотациями @BeforeSuite или @AfterSuite
         checkMethodsArray();
         //сортируем массив методов по значению приоритета
         sortMethodsArray();
 
-        //System.out.println(Annotation.class.getDeclaredFields().length);//0
+        //System.out.println(methods[3].getAnnotation(Test.class).priority());
         //printMethodsAnnotations(methods);
 
         /*try {
@@ -92,32 +92,68 @@ public class TestController {
     private static void sortMethodsArray() {
         int beforeSuiteIndex = -1;
         int afterSuiteIndex = - 1;
-        Method tempMethod;
+        //Method tempMethod;
 
-        //сначала расставляем BeforeSuite и AfterSuite
+        //***сначала расставляем BeforeSuite и AfterSuite
         for (int i = 0; i < methods.length; i++) {
-            //запоминаем текущий метод
-            tempMethod = methods[i];
-            //если метод с аннотацией BeforeSuite
-            if(methods[i].getAnnotation(BeforeSuite.class) != null) {
-                beforeSuiteIndex = i;
-            }
-            //ищем на каком месте
-            if(methods[i].getAnnotation(AfterSuite.class) != null) {
-                afterSuiteIndex = i;
-            }
-
-
-        }
-        /*for (Method method: methods) {
-
-            if(method.getAnnotation(AfterSuite.class) != null){
-                if(++afterSuiteCount > 1){
-                    throw new RuntimeException("There are more than one methods with AfterSuite annotation!");
+            //если метод - это метод с аннотацией BeforeSuite
+            if (methods[i].getAnnotation(BeforeSuite.class) != null) {
+                //если в массиве есть метод с аннотацией BeforeSuite, занимаем индекс
+                beforeSuiteIndex = 0;
+                //если он не в начале массива, перемещаем его в начало
+                if (i != 0) {
+                    //запоминаем метод в начале массива
+                    Method tempMethod = methods[0];
+                    //записываем на его место текущий метод
+                    methods[0] = methods[i];
+                    //записываем на текущее место метод с начала массива
+                    methods[i] = tempMethod;
                 }
             }
-        }*/
-        System.out.println("beforeSuiteIndex: " + beforeSuiteIndex + " . afterSuiteIndex: " + afterSuiteIndex);
+            //если метод с аннотацией AfterSuite не в конце массива
+            if (methods[i].getAnnotation(AfterSuite.class) != null) {
+                //если в массиве есть метод с аннотацией AfterSuite, занимаем индекс
+                afterSuiteIndex = methods.length - 1;
+                //если он не в конце массива, перемещаем его в конец
+                if (i != methods.length - 1) {
+                    //запоминаем метод в конце массива
+                    Method tempMethod = methods[methods.length - 1];
+                    //записываем на его место текущий метод
+                    methods[methods.length - 1] = methods[i];
+                    //записываем на текущее место метод с конца массива
+                    methods[i] = tempMethod;
+                }
+            }
+        }
+        //***затем сортируем методы с аннотацией тест по приоритету
+        //если в массиве есть метод с аннотацией BeforeSuite, начинаем со второго места, если нет - с первого.
+        int startIndex = beforeSuiteIndex == 0 ? 1 : 0;
+        //если в массиве есть метод с аннотацией AfterSuite, начинаем с предпоследнего места, если нет - с последнего.
+        int endIndex = afterSuiteIndex == methods.length - 1 ? methods.length - 1 : methods.length;
+        //листаем массив
+        for (int i = startIndex; i < endIndex - 1; i++) {
+            //если метод с аннотацией Test - сортируем
+            if (methods[i].getAnnotation(Test.class) != null) {
+                //ищем метод с большим приоритетом
+                for (int j = i + 1; j < endIndex; j++) {
+                    //если у предыдущего метода приоритет меньше, то меняем местами
+                    if (methods[i].getAnnotation(Test.class).priority() < methods[j].getAnnotation(Test.class).priority()) {
+                        System.out.println("i: " + i + " . j: " + j);
+                        //запоминаем текущий j метод
+                        Method tempMethod = methods[j];
+                        //записываем на его место текущий i метод
+                        methods[j] = methods[i];
+                        //записываем на текущее место j метод
+                        methods[i] = tempMethod;
+                    }
+                }
+            }
+        }
+        //System.out.println("beforeSuiteIndex: " + beforeSuiteIndex + " . afterSuiteIndex: " + afterSuiteIndex);
+        System.out.println("after.");
+        printArray(methods);
+        System.out.println("sorted.");
+        printSortedArray(methods);
     }
 
     //метод возвращает все объявленные методы класса в параметрах
@@ -175,17 +211,12 @@ public class TestController {
         }
     }
 
-    /*public static void printArray(Executable[] inArray){
-        System.out.println("inArray.getClass().getSimpleName(): " + inArray.getClass().getSimpleName());
-        System.out.println("inArray.getClass().getComponentType(): " + inArray.getClass().getComponentType());
-        System.out.println("inArray.getClass().getComponentType().getSuperclass().getTypeName(): " + inArray.getClass().getComponentType().getSuperclass().getTypeName());
-        for (Executable o: inArray) {
-            //System.out.println("o.getClass().getComponentType(): " + o.getClass().getComponentType());
-            //System.out.println("o.getClass().getSimpleName(): " + o.getClass().getSimpleName());
-            //System.out.println("o.toString(): " + o.toString());
-            System.out.println("o.getName(): " + o.getName());
+    public static void printSortedArray(Method[] inArray){
+        for (Method o: inArray) {
+            if(o.getAnnotation(Test.class) != null) {
+                System.out.println("o.getName(): " + o.getName() + " - priority: " + o.getAnnotation(Test.class).priority());            }
         }
-    }*/
+    }
 
     public static void printMethodsAnnotations(Method[] methods){
         System.out.println("methods.getClass().getSimpleName(): " + methods.getClass().getSimpleName());
