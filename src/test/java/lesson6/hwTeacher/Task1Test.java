@@ -15,7 +15,6 @@ import static org.junit.Assert.assertArrayEquals;
 public class Task1Test {
     private static final Logger log = LoggerFactory.getLogger(Task1.class);
 
-
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{

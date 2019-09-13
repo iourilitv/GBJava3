@@ -9,6 +9,8 @@
     <property name="ROLLING_PATTERN" value="%d{yyyy-MM-dd}.log.zip"/>
     <property name="ROLLING_TS_PATTERN" value="%d{yyyy-MM-dd}.%i.log.zip"/>
 
+    <!--TODO Проверить здесь ли определяется, что выводить прямо в консоль.Hided-->
+    <!--TODO Не помогло скрыть вывод спама в консоль. Но скрыл логи из методов Task1Test в консоль-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
@@ -80,6 +82,8 @@
     </logger>
 
     <root level="INFO">
+        <!--TODO Проверить здесь ли определяется, что выводить прямо в консоль.Hided-->
+        <!--TODO Не помогло скрыть вывод спама в консоль. Но скрыл логи из методов Task1Test в консоль-->
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
         <!--<appender-ref ref="EMAIL"/>-->
