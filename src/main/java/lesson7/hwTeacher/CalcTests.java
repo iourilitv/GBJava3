@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 //import java.util.Vector;
-
+//запуск самих тестов
 public class CalcTests {
 
     @BeforeSuite()
@@ -17,12 +17,19 @@ public class CalcTests {
     }
 
     @Test(priority = 4)
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused")//подавить варнинг не используется
+    //после сборки проекта эта аннотация выглядит - /unused/
+    //это чтобы IDEA не подсвечивала и не указывала на warnings
     public void addTest() {
+        //TODO в RunTime. Но лучше так не делать - очень затратно
+        //здесь пример, как обратиться к методу(и к его аннотациям) непосредственно из метода во время его работы
+        //способ 1. Через текущий поток в стеке
         final String methodName = Thread.currentThread()
                 .getStackTrace()[1].getMethodName();
+        //Способ 2. Через объект исключения найти его в стеке.
 //        final String methodName = new Exception()
 //                .getStackTrace()[0].getMethodName();
+        //TODO Как обратится из самого метода к его аннотации
         final Method[] declaredMethods = this.getClass().getDeclaredMethods();
 
         Method method = null;
