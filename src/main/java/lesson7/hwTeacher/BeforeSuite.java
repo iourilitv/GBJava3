@@ -1,0 +1,16 @@
+package lesson7.hwTeacher;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * @see AfterSuite
+ * @author batiaev
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface BeforeSuite {
+
+}
