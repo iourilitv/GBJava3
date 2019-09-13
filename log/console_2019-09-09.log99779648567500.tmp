@@ -1,0 +1,85 @@
+12:46:41.150 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: /authok nick00
+12:46:41.156 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick00 зашел в чат!
+12:47:00.168 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick00 написал: 000000000
+12:47:42.601 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: /authok nick01
+12:47:42.601 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 зашел в чат!
+12:47:42.602 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 зашел в чат!
+12:48:13.678 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 написал: 111111111
+12:48:13.680 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 написал: 111111111
+12:54:41.000 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+12:54:41.016 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: /authok nick00
+12:54:41.018 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick00 зашел в чат!
+12:55:47.773 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - message: /authok nick01
+12:55:47.774 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 зашел в чат!
+12:55:47.774 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 зашел в чат!
+12:55:47.846 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+12:56:12.600 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick00 написал: 00000000
+12:56:12.600 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick00 написал: 00000000
+12:56:16.629 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 написал: 111111111
+12:56:16.629 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - message: nick01 написал: 111111111
+12:56:43.547 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - message: /disconnected
+12:56:43.547 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - User nick01 has disconnected.
+13:11:02.726 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /authok nick00
+13:11:02.735 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 зашел в чат!
+13:11:02.745 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:11:17.183 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:11:17.184 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:11:17.184 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:11:17.259 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:11:38.589 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 написал: 00000
+13:11:38.589 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick00 написал: 00000
+13:11:46.968 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 написал: 1111
+13:11:46.968 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 написал: 1111
+13:11:59.424 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /disconnected
+13:11:59.424 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - User nick01 has disconnected.
+13:11:59.458 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:13:32.768 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:13:32.769 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:13:32.769 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:13:32.831 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:26:45.859 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /authok nick00
+13:26:45.867 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 зашел в чат!
+13:26:45.883 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:27:07.768 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:27:07.769 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:27:07.769 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:27:07.816 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:27:13.745 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 написал: 0000000
+13:27:13.745 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick00 написал: 0000000
+13:27:16.263 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 написал: 00000000
+13:27:16.263 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 написал: 00000000
+13:27:47.810 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /disconnected
+13:27:47.810 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - User nick01 has disconnected.
+13:27:47.887 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:28:21.478 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:28:21.478 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:28:21.479 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:28:21.531 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:38:33.923 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /authok nick00
+13:38:33.931 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 зашел в чат!
+13:38:34.040 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:38:44.542 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /disconnected
+13:38:44.542 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - User nick00 has disconnected.
+13:39:02.809 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /authok nick00
+13:39:02.809 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 зашел в чат!
+13:39:02.816 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:40:15.000 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:40:15.000 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:40:15.001 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:40:15.054 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:40:31.660 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 написал: 00000000
+13:40:31.660 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick00 написал: 00000000
+13:40:34.693 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 написал: 11111111
+13:40:34.693 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 написал: 11111111
+13:40:45.045 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /disconnected
+13:40:45.045 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - User nick01 has disconnected.
+13:40:45.131 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:41:25.001 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: /authok nick01
+13:41:25.002 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick01 зашел в чат!
+13:41:25.002 [pool-1-thread-2] INFO  c.b.j.lesson8.server.ClientHandler - To nick01 message: nick01 зашел в чат!
+13:41:25.015 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:47:06.559 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /authok nick00
+13:47:06.564 [pool-1-thread-1] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: nick00 зашел в чат!
+13:47:06.587 [Thread-0] ERROR c.b.java2.lesson8.server.MyServer - 99.MyServer.rollCallClientsHandlers: ConcurrentModificationException
+13:47:23.359 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - To nick00 message: /disconnected
+13:47:23.359 [pool-1-thread-3] INFO  c.b.j.lesson8.server.ClientHandler - User nick00 has disconnected.
