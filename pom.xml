@@ -6,7 +6,16 @@
 
     <groupId>groupId</groupId>
     <artifactId>GBJava3</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>Java 3 :: Stream 4 (2019-08-19)</name> <!--//TODO Added-->
+    <packaging>jar</packaging> <!--//TODO Added-->
+    <!--<version>1.0-SNAPSHOT</version>--> <!--//TODO Deleted-->
+    <version>0.0.1-SNAPSHOT</version> <!--//TODO Added-->
+
+    <!--//TODO Added-->
+    <scm>
+        <connection>scm:git:https://github.com/iourilitv/GBJava3.git</connection>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,18 +31,19 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.23.1</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -41,24 +51,34 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+        <!--//TODO Deleted-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>${logback.version}</version>-->
+<!--        </dependency>-->
 
+        <!--//TODO Added-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <version>1.2.3</version>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
+
+        <!--//TODO Deleted-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-core</artifactId>-->
+<!--            <version>${logback.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
         </dependency>
-    </dependencies>
 
+    </dependencies>
 
 
 </project>
